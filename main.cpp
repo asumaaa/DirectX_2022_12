@@ -1,6 +1,7 @@
 #include "main.h"
 #include "FPS.h"
 #include "DXInput.h"
+#include "fbxSDK.h"
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
@@ -32,6 +33,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	fps = new FPS;
 	fps->SetFrameRate(60.0f);
 	fps->FpsControlBegin();;
+
+
 
 #pragma endregion
 
