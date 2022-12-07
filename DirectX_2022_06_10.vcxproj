@@ -157,6 +157,7 @@
     <ClCompile Include="base\WinApp.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Fbx.cpp" />
+    <ClCompile Include="FbxModel.cpp" />
     <ClCompile Include="fbx\FbxLoader.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="base\WinApp.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Fbx.h" />
+    <ClInclude Include="FbxModel.h" />
     <ClInclude Include="fbx\FbxLoader.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />

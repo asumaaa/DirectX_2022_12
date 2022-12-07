@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "fbxsdk.h"
+#include "FbxModel.h"
 #include "string"
 
 #include <d3d12.h>
@@ -48,4 +49,6 @@ public:
 	static const string baseDirectory;
 	//FBXファイルの読み込み
 	void LoadModelFromFile(const string modelName);
+	//ノード構成を解析
+	void ParseNodeRecursive(FbxModel* model, FbxNode* fbxNode,Node* parent = nullptr);
 };
