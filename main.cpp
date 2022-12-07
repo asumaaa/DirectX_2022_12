@@ -2,6 +2,8 @@
 #include "FPS.h"
 #include "DXInput.h"
 #include "fbxSDK.h"
+#include "list"
+#include "memory"
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
@@ -34,6 +36,54 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	fps->SetFrameRate(60.0f);
 	fps->FpsControlBegin();;
 
+	//FbxManager* fbx_manager = FbxManager::Create();
+	//FbxImporter* fbx_importer = FbxImporter::Create(fbx_manager, "ImportTest");
+	//FbxScene* fbx_scene = FbxScene::Create(fbx_manager, "SceneTest");
+	//fbx_importer->Initialize("Box.fbx");
+	//FbxNode* root_node = fbx_scene->GetRootNode();
+
+	//for (int i = 0; i < root_node->GetNodeAttributeCount(); i++)
+	//{
+	//	FbxNodeAttribute* attribute = root_node->GetNodeAttributeByIndex(i);
+
+	//	FbxNodeAttribute::EType type = attribute->GetAttributeType();
+
+	//	printf("attribute type => %d\n", type);
+	//}
+
+	//for (int i = 0; i < root_node->GetChildCount(); i++)
+	//{
+	//	FbxNode* child = root_node->GetChild(i);
+	//}
+
+	//FbxGeometryConverter converter(fbx_manager);
+
+
+	//// ポリゴンを三角形にする
+	//converter.Triangulate(fbx_scene, true);
+
+	//// メッシュNodeを探す
+	//CollectMeshNode(fbx_scene->GetRootNode(), mesh_node_list);
+
+	//void ObjFile::CollectMeshNode(FbxNode * node, std::map<std::string, FbxNode*>&list)
+	//{
+	//	for (int i = 0; i < node->GetNodeAttributeCount(); i++)
+	//	{
+	//		FbxNodeAttribute* attribute = node->GetNodeAttributeByIndex(i);
+
+	//		// Attributeがメッシュなら追加
+	//		if (attribute->GetAttributeType() == FbxNodeAttribute::EType::eMesh)
+	//		{
+	//			list[node->GetName()] = node;
+	//			break;
+	//		}
+	//	}
+
+	//	for (int i = 0; i < node->GetChildCount(); i++)
+	//	{
+	//		CollectMeshNode(node->GetChild(i), list);
+	//	}
+	//}
 
 
 #pragma endregion
@@ -61,7 +111,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	}
 
 	//FPS固定を解除
-	fps->FpsControlEnd();
 	dx->EndImgui();
 
 	delete fps;
