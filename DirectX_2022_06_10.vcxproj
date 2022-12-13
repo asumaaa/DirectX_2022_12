@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="3D\Model.cpp" />
     <ClCompile Include="3D\object3D.cpp" />
     <ClCompile Include="base\DirectXCommon.cpp" />
     <ClCompile Include="base\FPS.cpp" />
@@ -171,11 +172,11 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="math\Math2.cpp" />
     <ClCompile Include="math\Matrix4.cpp" />
-    <ClCompile Include="Model.cpp" />
     <ClCompile Include="Pera.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="3D\Model.h" />
     <ClInclude Include="3D\object3D.h" />
     <ClInclude Include="base\DirectXCommon.h" />
     <ClInclude Include="base\FPS.h" />
@@ -201,7 +202,6 @@
     <ClInclude Include="main.h" />
     <ClInclude Include="math\Math2.h" />
     <ClInclude Include="math\Matrix4.h" />
-    <ClInclude Include="Model.h" />
     <ClInclude Include="Pera.h" />
     <ClInclude Include="scene\GameScene.h" />
   </ItemGroup>
