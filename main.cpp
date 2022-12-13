@@ -36,33 +36,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	fps->SetFrameRate(60.0f);
 	fps->FpsControlBegin();
 
-	//FbxManager* fbx_manager = FbxManager::Create();
-	//FbxImporter* fbx_importer = FbxImporter::Create(fbx_manager, "ImportTest");
-	//FbxScene* fbx_scene = FbxScene::Create(fbx_manager, "SceneTest");
-	//fbx_importer->Initialize("Box.fbx");
-	//FbxNode* root_node = fbx_scene->GetRootNode();
-
-	//for (int i = 0; i < root_node->GetNodeAttributeCount(); i++)
-	//{
-	//	FbxNodeAttribute* attribute = root_node->GetNodeAttributeByIndex(i);
-
-	//	FbxNodeAttribute::EType type = attribute->GetAttributeType();
-
-	//	/*printf("attribute type => %d\n", type);*/
-	//}
-
-	//for (int i = 0; i < root_node->GetChildCount(); i++)
-	//{
-	//	FbxNode* child = root_node->GetChild(i);
-	//}
-
-	//FbxGeometryConverter converter(fbx_manager);
-	//// ƒ|ƒŠƒSƒ“‚ðŽOŠpŒ`‚É‚·‚é
-	//converter.Triangulate(fbx_scene, true);
-
-	//// ƒƒbƒVƒ…Node‚ð’T‚·
-	//CollectMeshNode(fbx_scene->GetRootNode(), root_node);
-
 
 #pragma endregion
 
@@ -93,9 +66,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	delete fps;
 	delete gameScene;
-
-	/*FbxLoader::GetInstance()->Finalize();*/
-	/*delete dx;*/
 
 	masage->ExitGameloop();
 

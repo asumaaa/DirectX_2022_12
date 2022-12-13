@@ -50,7 +50,7 @@ public:
 	//テクスチャない場合の標準テクスチャファイル名
 	static const string defaultTextureFileName;
 	//FBXファイルの読み込み
-	void LoadModelFromFile(const string modelName);
+	FbxModel* LoadModelFromFile(const string modelName, const string textureName);
 	//ノード構成を解析
 	void ParseNodeRecursive(FbxModel* model, FbxNode* fbxNode,Node* parent = nullptr);
 	//メッシュ解析
@@ -68,4 +68,7 @@ public:
 	void LoadTexture(FbxModel* model, const std::string& fullpath);
 	//ディレクトリを含んだファイルパスからファイル名を抽出する
 	std::string ExtractFileName(const std::string& path);
+
+private:
+	string textureName;
 };

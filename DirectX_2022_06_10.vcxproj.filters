@@ -52,6 +52,9 @@
     <Filter Include="ヘッダー ファイル\fbx">
       <UniqueIdentifier>{dc815fcf-d49b-4309-bb6e-557d0fadafbb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="shaders">
+      <UniqueIdentifier>{9dc9afa9-1e45-4091-9631-3784e0cd871f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -126,14 +129,14 @@
     <ClCompile Include="Pera.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Fbx.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="fbx\FbxLoader.cpp">
       <Filter>ソース ファイル\fbx</Filter>
     </ClCompile>
-    <ClCompile Include="FbxModel.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="fbx\FbxModel.cpp">
+      <Filter>ソース ファイル\fbx</Filter>
+    </ClCompile>
+    <ClCompile Include="fbx\FbxObject3D.cpp">
+      <Filter>ソース ファイル\fbx</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -212,14 +215,14 @@
     <ClInclude Include="Pera.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Fbx.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="fbx\FbxLoader.h">
       <Filter>ヘッダー ファイル\fbx</Filter>
     </ClInclude>
-    <ClInclude Include="FbxModel.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="fbx\FbxModel.h">
+      <Filter>ヘッダー ファイル\fbx</Filter>
+    </ClInclude>
+    <ClInclude Include="fbx\FbxObject3D.h">
+      <Filter>ヘッダー ファイル\fbx</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -235,11 +238,14 @@
     <FxCompile Include="SpriteVS.hlsl" />
     <FxCompile Include="peraPixel.hlsl" />
     <FxCompile Include="peraVertex.hlsl" />
+    <FxCompile Include="FBXPS.hlsl" />
+    <FxCompile Include="FBXVS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Basic.hlsli" />
     <None Include="Obj.hlsli" />
     <None Include="Sprite.hlsli" />
     <None Include="peraHeader.hlsli" />
+    <None Include="FBX.hlsli" />
   </ItemGroup>
 </Project>

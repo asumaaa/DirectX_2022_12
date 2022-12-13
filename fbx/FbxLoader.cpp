@@ -38,7 +38,7 @@ void FbxLoader::Finalize()
     fbxManager->Destroy();
 }
 
-void FbxLoader::LoadModelFromFile(const string modelName)
+FbxModel* FbxLoader::LoadModelFromFile(const string modelName, const string textureName)
 {
     //モデルと同じ名前のフォルダから読み込む
     const string directoryPath = baseDirectory + modelName + "/";
@@ -46,6 +46,9 @@ void FbxLoader::LoadModelFromFile(const string modelName)
     const string fileName = modelName + ".fbx";
     //連結してフルパスを得る
     const string fullpath = directoryPath + fileName;
+
+    //画像を取得
+    this->textureName = textureName;
 
     //ファイル名を指定してFBXファイルを読み込む
     if (!fbxImporter->Initialize(fullpath.c_str(), -1, fbxManager->GetIOSettings())) {
@@ -69,8 +72,11 @@ void FbxLoader::LoadModelFromFile(const string modelName)
     ParseNodeRecursive(model, fbxScene->GetRootNode());
     //FBXシーン解放
     fbxScene->Destroy();
+
     //バッファ生成
     model->CreateBuffers(device);
+
+    return model;
 }
 
 void FbxLoader::ParseNodeRecursive(FbxModel* model, FbxNode* fbxNode, Node* parent)
@@ -241,7 +247,7 @@ void FbxLoader::ParseMeshFaces(FbxModel* model, FbxMesh* fbxMesh)
                 int index3 = index;
                 int index0 = indices[indices.size() - 3];
                 indices.push_back(index2);
-                indices.push_back(index2);
+                indices.push_back(index3);
                 indices.push_back(index0);
             }
         }
@@ -256,7 +262,7 @@ void FbxLoader::ParseMaterial(FbxModel* model, FbxNode* fbxNode)
         //先頭のマテリアルを取得
         FbxSurfaceMaterial* material = fbxNode->GetMaterial(0);
         //テクスチャを読み込んだかどうかを表すフラグ
-        bool textureLoaded = false;
+        /*bool textureLoaded = false;*/
 
         if (material)
         {
@@ -275,29 +281,30 @@ void FbxLoader::ParseMaterial(FbxModel* model, FbxNode* fbxNode)
                 model->diffuse.y = (float)diffuse.Get()[1];
                 model->diffuse.z = (float)diffuse.Get()[2];
             }
+            LoadTexture(model, textureName);
             //ディフューズテクスチャを取り出す
-            const FbxProperty diffuseProperty = material->FindProperty(FbxSurfaceMaterial::sDiffuse);
-            if (diffuseProperty.IsValid())
-            {
-                const FbxFileTexture* texture = diffuseProperty.GetSrcObject<FbxFileTexture>();
-                if (texture)
-                {
-                    const char* filepath = texture->GetFileName();
-                    //ファイルパスからファイル名抽出
-                    string path_str(filepath);
-                    string name = ExtractFileName(path_str);
-                    //テクスチャ読み込み
-                    LoadTexture(model, baseDirectory + model->name + "/" + name);
-                    textureLoaded = true;
-                }
-            }
+            //const FbxProperty diffuseProperty = material->FindProperty(FbxSurfaceMaterial::sDiffuse);
+            //if (diffuseProperty.IsValid())
+            //{
+            //    const FbxFileTexture* texture = diffuseProperty.GetSrcObject<FbxFileTexture>();
+            //    if (texture)
+            //    {
+            //        const char* filepath = texture->GetFileName();
+            //        //ファイルパスからファイル名抽出
+            //        string path_str(filepath);
+            //        string name = ExtractFileName(path_str);
+            //        //テクスチャ読み込み
+            //        LoadTexture(model, baseDirectory + model->name + "/" + name);
+            //        textureLoaded = true;
+            //    }
+            //}
         }
 
         //テクスチャがない場合は白テクスチャを貼る
-        if (!textureLoaded)
+        /*if (!textureLoaded)
         {
             LoadTexture(model, baseDirectory + defaultTextureFileName);
-        }
+        }*/
     }
 }
 

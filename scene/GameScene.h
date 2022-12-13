@@ -11,6 +11,8 @@
 #include "Camera.h"
 #include "DXInput.h"
 #include "Sprite.h"
+#include "FbxObject3D.h"
+#include "FbxModel.h"
 
 class GameScene
 {
@@ -31,4 +33,9 @@ private:
 
 	//コントローラ
 	DXInput* dxInput = new DXInput();
+	//カメラ
+	std::unique_ptr<Camera> camera_;
+
+	FbxModel* model1 = nullptr;
+	FbxObject3D* object1 = nullptr;
 };
