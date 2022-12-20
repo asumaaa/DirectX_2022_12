@@ -3,6 +3,7 @@
 void FbxModel::CreateBuffers(ID3D12Device* device)
 {
 	HRESULT result;
+
 	//頂点データ全体のサイズ
 	UINT sizeVB = static_cast<UINT>(sizeof(VertexPosNormalUv)) * vertices.size();
 
