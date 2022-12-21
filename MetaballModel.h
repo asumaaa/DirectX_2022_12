@@ -1,6 +1,7 @@
 #pragma once
 #include "vector"
 #include "DirectXMath.h"
+#include "DirectXCommon.h"
 #include "DirectXTex.h"
 #include "windows.h"
 #include "wrl.h"

@@ -46,17 +46,6 @@ private:
 	FbxObject3D* object1 = nullptr;
 
 	//メタボール
-	MetaballModel* metaModel1 = nullptr;
-	MetaballObject3D* metaObject1 = nullptr;
-
-	//size_t texImgCount_ = 1;	//テクスチャの数
-	//std::vector<SphereSprite> texImg_;	//テクスチャ
-
-	////球体のモデル
-	//XMFLOAT3 size1 = { 5.0f,5.0f,5.0f };
-	//std::unique_ptr<SphereModel> sphere_;
-
-	////3Dオブジェクト
-	//size_t kObjectCount = 2;		//オブジェクトの数
-	//std::vector<Object3d> object3ds_;	//オブジェクト
+	std::unique_ptr<MetaballModel> metaModel1;
+	std::unique_ptr<MetaballObject3D> metaObject1;
 };
