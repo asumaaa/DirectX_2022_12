@@ -55,6 +55,12 @@
     <Filter Include="shaders">
       <UniqueIdentifier>{9dc9afa9-1e45-4091-9631-3784e0cd871f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\metaball">
+      <UniqueIdentifier>{91a6b18b-ca39-4663-a61b-7adae936a817}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\metaball">
+      <UniqueIdentifier>{100f9ec8-616b-479d-9edc-f5a8325e09c4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -138,13 +144,19 @@
     <ClCompile Include="3D\Model.cpp">
       <Filter>ソース ファイル\3D</Filter>
     </ClCompile>
-    <ClCompile Include="SphereModel.cpp">
+    <ClCompile Include="metaball\SphereModel.cpp">
+      <Filter>ソース ファイル\metaball</Filter>
+    </ClCompile>
+    <ClCompile Include="metaball\SphereObject3D.cpp">
+      <Filter>ソース ファイル\metaball</Filter>
+    </ClCompile>
+    <ClCompile Include="metaball\SphereSprite.cpp">
+      <Filter>ソース ファイル\metaball</Filter>
+    </ClCompile>
+    <ClCompile Include="MetaballModel.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="SphereObject3D.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="SphereSprite.cpp">
+    <ClCompile Include="MetaballObject3D.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -233,13 +245,19 @@
     <ClInclude Include="3D\Model.h">
       <Filter>ヘッダー ファイル\3D</Filter>
     </ClInclude>
-    <ClInclude Include="SphereModel.h">
+    <ClInclude Include="metaball\SphereModel.h">
+      <Filter>ヘッダー ファイル\metaball</Filter>
+    </ClInclude>
+    <ClInclude Include="metaball\SphereObject3D.h">
+      <Filter>ヘッダー ファイル\metaball</Filter>
+    </ClInclude>
+    <ClInclude Include="metaball\SphereSprite.h">
+      <Filter>ヘッダー ファイル\metaball</Filter>
+    </ClInclude>
+    <ClInclude Include="MetaballModel.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="SphereObject3D.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="SphereSprite.h">
+    <ClInclude Include="MetaballObject3D.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

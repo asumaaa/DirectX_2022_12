@@ -120,7 +120,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(projectDir)input;$(projectDir);$(projectDir)3D;$(projectDir)base;$(projectDir)imgui;$(projectDir)math;$(projectDir)scene;$(projectDir)player;$(projectDir)enemy;$(projectDir)effect;$(projectDir)fbx;$(projectDir)shaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(projectDir)input;$(projectDir);$(projectDir)3D;$(projectDir)base;$(projectDir)imgui;$(projectDir)math;$(projectDir)scene;$(projectDir)player;$(projectDir)enemy;$(projectDir)effect;$(projectDir)fbx;$(projectDir)shaders;$(projectDir)metaball;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -136,7 +136,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(projectDir)input;$(projectDir);$(projectDir)3D;$(projectDir)base;$(projectDir)imgui;$(projectDir)math;$(projectDir)scene;$(projectDir)player;$(projectDir)enemy;$(projectDir)effect;$(projectDir)fbx;$(projectDir)shaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(projectDir)input;$(projectDir);$(projectDir)3D;$(projectDir)base;$(projectDir)imgui;$(projectDir)math;$(projectDir)scene;$(projectDir)player;$(projectDir)enemy;$(projectDir)effect;$(projectDir)fbx;$(projectDir)shaders;$(projectDir)metaball;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -172,11 +172,13 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="math\Math2.cpp" />
     <ClCompile Include="math\Matrix4.cpp" />
+    <ClCompile Include="MetaballModel.cpp" />
+    <ClCompile Include="MetaballObject3D.cpp" />
+    <ClCompile Include="metaball\SphereModel.cpp" />
+    <ClCompile Include="metaball\SphereObject3D.cpp" />
+    <ClCompile Include="metaball\SphereSprite.cpp" />
     <ClCompile Include="Pera.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
-    <ClCompile Include="SphereModel.cpp" />
-    <ClCompile Include="SphereObject3D.cpp" />
-    <ClCompile Include="SphereSprite.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3D\Model.h" />
@@ -205,11 +207,13 @@
     <ClInclude Include="main.h" />
     <ClInclude Include="math\Math2.h" />
     <ClInclude Include="math\Matrix4.h" />
+    <ClInclude Include="MetaballModel.h" />
+    <ClInclude Include="MetaballObject3D.h" />
+    <ClInclude Include="metaball\SphereModel.h" />
+    <ClInclude Include="metaball\SphereObject3D.h" />
+    <ClInclude Include="metaball\SphereSprite.h" />
     <ClInclude Include="Pera.h" />
     <ClInclude Include="scene\GameScene.h" />
-    <ClInclude Include="SphereModel.h" />
-    <ClInclude Include="SphereObject3D.h" />
-    <ClInclude Include="SphereSprite.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BasicPS.hlsl">
