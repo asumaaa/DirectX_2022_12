@@ -1,4 +1,4 @@
-#include "MetaballObject3D.h"
+#include "CubeObject3D.h"
 
 #include <d3dcompiler.h>
 #pragma comment(lib,"d3dcompiler.lib")
@@ -6,13 +6,14 @@
 using namespace Microsoft::WRL;
 using namespace DirectX;
 
-ComPtr<ID3D12RootSignature>MetaballObject3D::rootsignature;
-ComPtr<ID3D12PipelineState>MetaballObject3D::pipelinestate;
+ComPtr<ID3D12RootSignature>CubeObject3D::rootsignature;
+ComPtr<ID3D12PipelineState>CubeObject3D::pipelinestate;
 
-ID3D12Device* MetaballObject3D::device = nullptr;
-Camera* MetaballObject3D::camera = nullptr;
+ID3D12Device* CubeObject3D::device = nullptr;
+Camera* CubeObject3D::camera = nullptr;
 
-void MetaballObject3D::Initialize()
+
+void CubeObject3D::Initialize()
 {
 	HRESULT result;
 	//定数バッファの生成
@@ -28,7 +29,7 @@ void MetaballObject3D::Initialize()
 	);
 }
 
-void MetaballObject3D::Update()
+void CubeObject3D::Update()
 {
 	XMMATRIX matScale, matRot, matTrans;
 
@@ -64,7 +65,7 @@ void MetaballObject3D::Update()
 	}
 }
 
-void MetaballObject3D::Draw(ID3D12GraphicsCommandList* cmdList)
+void CubeObject3D::Draw(ID3D12GraphicsCommandList* cmdList)
 {
 	//モデルの割り当てがなければ描画市内
 	if (model == nullptr)
@@ -85,7 +86,7 @@ void MetaballObject3D::Draw(ID3D12GraphicsCommandList* cmdList)
 	model->Draw(cmdList);
 }
 
-void MetaballObject3D::CreateGraphicsPipeline()
+void CubeObject3D::CreateGraphicsPipeline()
 {
 	HRESULT result = S_FALSE;
 	ComPtr<ID3DBlob> vsBlob; // 頂点シェーダオブジェクト
@@ -168,8 +169,8 @@ void MetaballObject3D::CreateGraphicsPipeline()
 	gpipeline.SampleMask = D3D12_DEFAULT_SAMPLE_MASK; // 標準設定
 	// ラスタライザステート
 	gpipeline.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
-	gpipeline.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
-	gpipeline.RasterizerState.FillMode = D3D12_FILL_MODE_WIREFRAME;
+	/*gpipeline.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;*/
+	gpipeline.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;
 	// デプスステンシルステート
 	gpipeline.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
 

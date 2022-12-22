@@ -1,22 +1,12 @@
-#include "MetaballModel.h"
-#include "math.h"
-#define PI 3.14159265359
+#include "CubeModel.h"
 
-//const int fine = 12;	//球体の細かさ	変数宣言用
-//const int fine2 = fine * fine * 2;	//描画に使う頂点の数
-//const int fine3 = fine * fine * 3;	//インデックスの数
-//const int fine4 = fine * fine + fine;	//頂点の数
-
-void MetaballModel::CreateBuffers(ID3D12Device* device)
+void CubeModel::CreateBuffers(ID3D12Device* device)
 {
 	HRESULT result;
 
-	//頂点、頂点生成用データ、インデックスのサイズ設定
-	vertices.resize(fine2);
-	v.resize(fine2);
-	v2.resize(fine4);
-	v3.resize(fine4);
-	indices.resize(fine3);
+	//頂点、インデックスサイズ設定
+	vertices.resize(24);
+	indices.resize(36);
 
 	//頂点データ生成
 	CreateVertex();
@@ -188,192 +178,85 @@ void MetaballModel::CreateBuffers(ID3D12Device* device)
 	//ハンドルの指す位置にシェーダリソースビュー作成
 	device->CreateShaderResourceView(
 		texBuff.Get(),
-		&srvDesc, 
+		&srvDesc,
 		srvHeap->GetCPUDescriptorHandleForHeapStart()
 	);
 }
 
-void MetaballModel::CreateVertex()
+void CubeModel::CreateVertex()
 {
 	//球体一つの基礎サイズ
 	XMFLOAT3 size = { 1.0f,1.0f,1.0f };
 	//頂点データ
-	float x, y, z;
-	for (int i = 0; i < fine2; i++)
+	VertexPosNormalUv v[] = {
+		//前
+		{{-size.x / 2,-size.y / 2,-size.z / 2},{},{0.0f,1.0f} },	//0
+		{{-size.x / 2, size.y / 2,-size.z / 2},{},{0.0f,0.0f} },	//1 
+		{{ size.x / 2,-size.y / 2,-size.z / 2},{},{1.0f,1.0f} },	//2 
+		{{ size.x / 2, size.y / 2,-size.z / 2},{},{1.0f,0.0f} },	//3
+		//後				 	   
+		{{ size.x / 2,-size.y / 2, size.z / 2},{},{0.0f,1.0f} },	//4
+		{{ size.x / 2, size.y / 2, size.z / 2},{},{0.0f,0.0f} },	//5
+		{{-size.x / 2,-size.y / 2, size.z / 2},{},{1.0f,1.0f} },	//6
+		{{-size.x / 2, size.y / 2, size.z / 2},{},{1.0f,0.0f} },	//7
+		//左				 	    
+		{{-size.x / 2,-size.y / 2,-size.z / 2},{},{0.0f,1.0f} },	//8
+		{{-size.x / 2,-size.y / 2, size.z / 2},{},{0.0f,0.0f} },	//9
+		{{-size.x / 2, size.y / 2,-size.z / 2},{},{1.0f,1.0f} },	//10
+		{{-size.x / 2, size.y / 2, size.z / 2},{},{1.0f,0.0f} },	//11
+		//右				 	    
+		{{ size.x / 2,-size.y / 2,-size.z / 2},{},{0.0f,1.0f} },	//12
+		{{ size.x / 2,-size.y / 2, size.z / 2},{},{0.0f,0.0f} },	//13
+		{{ size.x / 2, size.y / 2,-size.z / 2},{},{1.0f,1.0f} },	//14
+		{{ size.x / 2, size.y / 2, size.z / 2},{},{1.0f,0.0f} },	//15
+		//下					  	
+		{{-size.x / 2,-size.y / 2, size.z / 2},{},{0.0f,1.0f} },	//16
+		{{-size.x / 2,-size.y / 2,-size.z / 2},{},{0.0f,0.0f} },	//17
+		{{ size.x / 2,-size.y / 2, size.z / 2},{},{1.0f,1.0f} },	//18
+		{{ size.x / 2,-size.y / 2,-size.z / 2},{},{1.0f,0.0f} },	//19
+		//上				 	    
+		{{-size.x / 2, size.y / 2,-size.z / 2},{},{0.0f,1.0f} },	//20
+		{{-size.x / 2, size.y / 2, size.z / 2},{},{0.0f,0.0f} },	//21
+		{{ size.x / 2, size.y / 2,-size.z / 2},{},{1.0f,1.0f} },	//22
+		{{ size.x / 2, size.y / 2, size.z / 2},{},{1.0f,0.0f} },	//23
+	};
+	//インデックスデータ
+	unsigned short in[] =
 	{
-		if (i == 0 || i % 4 == 0)
-		{
-			if (i == 0)
-			{
-				angleX = 0;
-			}
-			if (i == 0 || i % (fine * 4) == 0)
-			{
-				angleY = (2 * PI) * ((float)(i + fine * 4) / (float)(fine * fine * 4));
-			}
-			else
-			{
-				angleY += oneAngle;
-			}
 
-			v[i].pos.x = size.x * cos(angleX) * sin(angleY);
-			v[i].pos.y = size.y * cos(angleY);
-			v[i].pos.z = size.z * sin(angleX) * sin(angleY);
+		//前
+		0,1,2,	//三角形1つ目
+		2,1,3,	//三角形2つ目
+		//後
+		4,5,6,
+		6,5,7,
+		//左
+		8,9,10,
+		10,9,11,
+		//右
+		12,13,14,
+		14,13,15,
+		//下
+		16,17,18,
+		18,17,19,
+		//上
+		20,21,22,
+		22,21,23,
+	};
 
-		}
-
-		if (i == 1 || i % 4 == 1)
-		{
-			angleY -= oneAngle;
-
-			v[i].pos.x = size.x * cos(angleX) * sin(angleY);
-			v[i].pos.y = size.y * cos(angleY);
-			v[i].pos.z = size.z * sin(angleX) * sin(angleY);
-
-		}
-		if (i == 2 || i % 4 == 2)
-		{
-			angleX += oneAngle;
-			angleY += oneAngle;
-
-			v[i].pos.x = size.x * cos(angleX) * sin(angleY);
-			v[i].pos.y = size.y * cos(angleY);
-			v[i].pos.z = size.z * sin(angleX) * sin(angleY);
-
-		}
-		if (i == 3 || i % 4 == 3)
-		{
-			angleY -= oneAngle;
-
-			v[i].pos.x = size.x * cos(angleX) * sin(angleY);
-			v[i].pos.y = size.y * cos(angleY);
-			v[i].pos.z = size.z * sin(angleX) * sin(angleY);
-
-		}
-	}
-
-	unsigned short in[fine3];
-	for (int i = 0; i < fine3; i++)
-	{
-		double num_ = ((i / 6) * 6) * 2 / 3;
-		if (i == 0 || i % 6 == 0) { in[i] = num_; }
-		if (i == 1 || i == 4 || i % 6 == 1 || i % 6 == 4) { in[i] = num_ + 1; }
-		if (i == 2 || i == 3 || i % 6 == 2 || i % 6 == 3) { in[i] = num_ + 2; }
-		if (i == 5 || i % 6 == 5) { in[i] = num_ + 3; }
-	}
-
-	angleY = 0;
-	angleX = 0;
-	//頂点データ	上から順番に割り当てる
-	for (int i = 0; i < fine4; i++)
-	{
-		if (i == 0 || i % fine == 0)
-		{
-			angleX = 0;
-		}
-		else
-		{
-			angleX += oneAngle;
-		}
-		if (i == 0)
-		{
-			angleY = 0;
-		}
-		else if (i != 0 && i >= fine && i % fine == 0)
-		{
-			angleY = (2 * PI) * ((float)(i) / (float)(fine * fine));
-		}
-		v2[i].pos.x = size.x * cos(angleX) * sin(angleY);
-		v2[i].pos.y = size.y * cos(angleY);
-		v2[i].pos.z = size.z * sin(angleX) * sin(angleY);
-		v3[i].pos.x = v2[i].pos.x;
-		v3[i].pos.y = v2[i].pos.y;
-		v3[i].pos.z = v2[i].pos.z;
-	}
-
-
-	for (int i = 0; i < fine2; i++)
-	{
-		for (int j = 0; j < fine4; j++)
-		{
-			//uv(0.0f,0.0f)
-			if (i == 1 || i % 4 == 1)
-			{
-				if (i == 1)
-				{
-					v[i].parent = &v2[0];
-				}
-				else if (i % 4 == 1 && i != 1)
-				{
-					v[i].parent = &v2[i / 4];
-				}
-			}
-			//uv(1.0f,0.0f)
-			if (i == 3 || i % 4 == 3)
-			{
-				if (i == 3)
-				{
-					v[i].parent = &v2[1];
-				}
-				else if (i % 4 == 3)
-				{
-					if (i % (fine * 4) != (fine * 4) - 1 && i != (fine * 4) - 1)
-					{
-						v[i].parent = &v2[(i + 1) / 4];
-					}
-					if (i % (fine * 4) == (fine * 4) - 1 || i == (fine * 4) - 1)
-					{
-						v[i].parent = &v2[(i / 4) - (fine - 1)];
-					}
-				}
-			}
-
-			//uv(0.0f,1.0f)
-			if (i == 0 || i % 4 == 0)
-			{
-				if (i == 0)
-				{
-					v[i].parent = &v2[fine];
-				}
-				else if (i % 4 == 0 && i != 0)
-				{
-					v[i].parent = &v2[(i / 4) + fine];
-				}
-			}
-
-			if (i == 2 || i % 4 == 2)
-			{
-				if (i == 2)
-				{
-					v[i].parent = &v2[fine + 1];
-				}
-				else if (i % 4 == 2)
-				{
-					if (i % (fine * 4) != (fine * 4) - 2 && i != (fine * 4) - 2)
-					{
-						v[i].parent = &v2[(i + 2) / 4 + fine];
-					}
-					if (i % (fine * 4) == (fine * 4) - 2 || i == (fine * 4) - 2)
-					{
-						v[i].parent = &v2[(i / 4) - (fine - 1) + fine];
-					}
-				}
-			}
-		}
-	}
-
-	//頂点座標、インデックスデータを代入
-	for (int i = 0; i < fine2; i++)
+	//頂点座標、uv座標、インデックスデータを代入
+	for (int i = 0; i < 24; i++)
 	{
 		vertices[i] = v[i];
 	}
 
-	for (int i = 0; i < fine3; i++)
+	for (int i = 0; i < 36; i++)
 	{
 		indices[i] = in[i];
 	}
+
 	//法線の計算
-	for (int i = 0; i < fine3 / 3; i++)
+	for (int i = 0; i < indices.size() / 3; i++)
 	{//三角形1つごとに計算していく
 		//三角形のインデックスを取り出して、一時的な変数に入れる
 		unsigned short indices0 = indices[i * 3 + 0];
@@ -397,7 +280,7 @@ void MetaballModel::CreateVertex()
 	}
 }
 
-void MetaballModel::SetImageData(XMFLOAT4 color)
+void CubeModel::SetImageData(XMFLOAT4 color)
 {
 	HRESULT result;
 	for (size_t i = 0; i < imageDataCount; i++)
@@ -417,7 +300,7 @@ void MetaballModel::SetImageData(XMFLOAT4 color)
 	);
 }
 
-void MetaballModel::Update()
+void CubeModel::Update()
 {
 	//-----この上に頂点の更新処理を書く-----
 
@@ -437,12 +320,10 @@ void MetaballModel::Update()
 	}
 	//つながりを解除
 	vertBuff->Unmap(0, nullptr);
-
 }
 
-void MetaballModel::Draw(ID3D12GraphicsCommandList* cmdList)
+void CubeModel::Draw(ID3D12GraphicsCommandList* cmdList)
 {
-
 	//頂点バッファをセット
 	cmdList->IASetVertexBuffers(0, 1, &vbView);
 	//インデックスバッファをセット

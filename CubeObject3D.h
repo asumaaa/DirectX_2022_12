@@ -1,6 +1,6 @@
 #pragma once
 
-#include "MetaballModel.h"
+#include "CubeModel.h"
 #include "Camera.h"
 
 #include "windows.h"
@@ -10,7 +10,7 @@
 #include "DirectXMath.h"
 #include "string.h"
 
-class MetaballObject3D
+class CubeObject3D
 {
 private:	//エイリアス
 //Microsoft::WRL::を省略
@@ -30,8 +30,8 @@ public://サブクラス
 	};
 public:	//静的メンバ関数
 //セッター
-	static void SetDevice(ID3D12Device* device) { MetaballObject3D::device = device; }
-	static void SetCamera(Camera* camera) { MetaballObject3D::camera = camera; }
+	static void SetDevice(ID3D12Device* device) { CubeObject3D::device = device; }
+	static void SetCamera(Camera* camera) { CubeObject3D::camera = camera; }
 
 private://静的メンバ変数
 	static ID3D12Device* device;
@@ -45,7 +45,7 @@ public://メンバ関数
 	//描画
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 	//モデルのセット
-	void SetModel(MetaballModel* model) { this->model = model; }
+	void SetModel(CubeModel* model) { this->model = model; }
 	//グラフィックスパイプラインの生成
 	static void CreateGraphicsPipeline();
 
@@ -53,7 +53,6 @@ public://メンバ関数
 	void SetPosition(XMFLOAT3 pos) { position = pos; }
 	void SetScale(XMFLOAT3 sca) { scale = sca; }
 	void SetRotation(XMFLOAT3 rot) { rotation = rot; }
-
 private://メンバ変数
 //定数バッファ
 	ComPtr<ID3D12Resource>constBuffTransform;
@@ -72,9 +71,6 @@ private:
 	//ローカルワールド変換行列
 	XMMATRIX matWorld;
 	//モデル
-	MetaballModel* model = nullptr;
-
-private:
-	//質量を設定
+	CubeModel* model = nullptr;
 };
 

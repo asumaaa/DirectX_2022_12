@@ -8,12 +8,7 @@
 #include "d3d12.h"
 #include "d3dx12.h"
 
-const int fine = 48;	//球体の細かさ	変数宣言用
-const int fine2 = fine * fine * 2;	//描画に使う頂点の数
-const int fine3 = fine * fine * 3;	//インデックスの数
-const int fine4 = fine * fine + fine;	//頂点の数
-
-class MetaballModel
+class CubeModel
 {
 private:	//エイリアス
 //Microsoft::WRL::を省略
@@ -47,8 +42,8 @@ public:
 	{
 		XMFLOAT3 pos;	//座標
 		XMFLOAT3 normal;	//法線ベクトル
-		XMFLOAT3 uv;	//uv座標
-		VertexPosNormalUv *parent = nullptr;	//uv座標
+		XMFLOAT2 uv;	//uv座標
+		VertexPosNormalUv* parent = nullptr;	//uv座標
 	};
 	//頂点データ配列
 	vector<VertexPosNormalUv>vertices;
@@ -83,13 +78,5 @@ private:
 	XMFLOAT4* imageData = new XMFLOAT4[imageDataCount];
 	//テクスチャーのGPUのハンドル
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle;
-private:
-	//頂点生成用変数
-	vector<VertexPosNormalUv> v;
-	vector<VertexPosNormalUv> v2;
-	vector<VertexPosNormalUv> v3;
-	const float fineSize = fine;	//球体の細かさ
-	float angleX, angleY;
-	float oneAngle = (2 * 3.14159265359) / fineSize;
 };
 

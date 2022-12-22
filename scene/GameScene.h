@@ -18,6 +18,8 @@
 //#include "SphereSprite.h"
 #include "MetaballModel.h"
 #include "MetaballObject3D.h"
+#include "CubeModel.h"
+#include "CubeObject3D.h"
 
 class GameScene
 {
@@ -41,11 +43,15 @@ private:
 	//カメラ
 	std::unique_ptr<Camera> camera_;
 
-	//fbx
-	FbxModel* model1 = nullptr;
-	FbxObject3D* object1 = nullptr;
+	////fbx
+	//FbxModel* model1 = nullptr;
+	//FbxObject3D* object1 = nullptr;
 
 	//メタボール
 	std::unique_ptr<MetaballModel> metaModel1;
 	std::unique_ptr<MetaballObject3D> metaObject1;
+
+	//キューブ
+	std::unique_ptr<CubeModel> cubeModel1;
+	std::unique_ptr<CubeObject3D> cubeObject1;
 };

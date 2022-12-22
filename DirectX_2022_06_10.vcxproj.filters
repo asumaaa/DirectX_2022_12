@@ -144,19 +144,16 @@
     <ClCompile Include="3D\Model.cpp">
       <Filter>ソース ファイル\3D</Filter>
     </ClCompile>
-    <ClCompile Include="metaball\SphereModel.cpp">
-      <Filter>ソース ファイル\metaball</Filter>
-    </ClCompile>
-    <ClCompile Include="metaball\SphereObject3D.cpp">
-      <Filter>ソース ファイル\metaball</Filter>
-    </ClCompile>
-    <ClCompile Include="metaball\SphereSprite.cpp">
-      <Filter>ソース ファイル\metaball</Filter>
-    </ClCompile>
     <ClCompile Include="MetaballModel.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="MetaballObject3D.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="CubeModel.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="CubeObject3D.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -245,19 +242,16 @@
     <ClInclude Include="3D\Model.h">
       <Filter>ヘッダー ファイル\3D</Filter>
     </ClInclude>
-    <ClInclude Include="metaball\SphereModel.h">
-      <Filter>ヘッダー ファイル\metaball</Filter>
-    </ClInclude>
-    <ClInclude Include="metaball\SphereObject3D.h">
-      <Filter>ヘッダー ファイル\metaball</Filter>
-    </ClInclude>
-    <ClInclude Include="metaball\SphereSprite.h">
-      <Filter>ヘッダー ファイル\metaball</Filter>
-    </ClInclude>
     <ClInclude Include="MetaballModel.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="MetaballObject3D.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="CubeModel.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="CubeObject3D.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

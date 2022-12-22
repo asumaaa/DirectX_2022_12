@@ -157,6 +157,8 @@
     <ClCompile Include="base\Texture.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CubeModel.cpp" />
+    <ClCompile Include="CubeObject3D.cpp" />
     <ClCompile Include="fbx\FbxLoader.cpp" />
     <ClCompile Include="fbx\FbxModel.cpp" />
     <ClCompile Include="fbx\FbxObject3D.cpp" />
@@ -174,9 +176,6 @@
     <ClCompile Include="math\Matrix4.cpp" />
     <ClCompile Include="MetaballModel.cpp" />
     <ClCompile Include="MetaballObject3D.cpp" />
-    <ClCompile Include="metaball\SphereModel.cpp" />
-    <ClCompile Include="metaball\SphereObject3D.cpp" />
-    <ClCompile Include="metaball\SphereSprite.cpp" />
     <ClCompile Include="Pera.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
   </ItemGroup>
@@ -191,6 +190,8 @@
     <ClInclude Include="base\Texture.h" />
     <ClInclude Include="base\WinApp.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CubeModel.h" />
+    <ClInclude Include="CubeObject3D.h" />
     <ClInclude Include="fbx\FbxLoader.h" />
     <ClInclude Include="fbx\FbxModel.h" />
     <ClInclude Include="fbx\FbxObject3D.h" />
@@ -209,9 +210,6 @@
     <ClInclude Include="math\Matrix4.h" />
     <ClInclude Include="MetaballModel.h" />
     <ClInclude Include="MetaballObject3D.h" />
-    <ClInclude Include="metaball\SphereModel.h" />
-    <ClInclude Include="metaball\SphereObject3D.h" />
-    <ClInclude Include="metaball\SphereSprite.h" />
     <ClInclude Include="Pera.h" />
     <ClInclude Include="scene\GameScene.h" />
   </ItemGroup>
