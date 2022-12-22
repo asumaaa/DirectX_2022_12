@@ -16,8 +16,9 @@
 //#include "SphereObject3D.h"
 //#include "SphereModel.h"
 //#include "SphereSprite.h"
-#include "MetaballModel.h"
-#include "MetaballObject3D.h"
+//#include "MetaballModel.h"
+//#include "MetaballObject3D.h"
+#include "Metaball.h"
 #include "CubeModel.h"
 #include "CubeObject3D.h"
 
@@ -48,8 +49,11 @@ private:
 	//FbxObject3D* object1 = nullptr;
 
 	//メタボール
-	std::unique_ptr<MetaballModel> metaModel1;
-	std::unique_ptr<MetaballObject3D> metaObject1;
+	//std::unique_ptr<MetaballModel> metaModel1;
+	//std::unique_ptr<MetaballObject3D> metaObject1;
+
+	std::unique_ptr<Metaball> metaball;
+	std::unique_ptr<Metaball> metaball2;
 
 	//キューブ
 	std::unique_ptr<CubeModel> cubeModel1;

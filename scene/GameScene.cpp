@@ -23,38 +23,25 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	camera_->SetTarget({ 0,0,0 });
 	camera_->SetEye({ 3, 3, -15 });
 
-	////FBX読み込み
-	//FbxLoader::GetInstance()->Initialize(dxCommon_->GetDevice());
-	////モデル名を指定してファイル読み込み
-	//model1 = FbxLoader::GetInstance()->LoadModelFromFile("cube","Resources/cube/Crate.jpg");
-
-	////デバイスをセット
-	//FbxObject3D::SetDevice(dxCommon_->GetDevice());
-	//FbxObject3D::SetCamera(camera_.get());
-	//FbxObject3D::CreateGraphicsPipeline();
-
-	//object1 = new FbxObject3D;
-	//object1->Initialize();
-	//object1->SetModel(model1);
-
-	//メタボールの設定
+	//メタボール
 	//デバイスをセット
-	MetaballObject3D::SetDevice(dxCommon_->GetDevice());
-	MetaballObject3D::SetCamera(camera_.get());
-	MetaballObject3D::CreateGraphicsPipeline();
+	Metaball::SetDevice(dxCommon_->GetDevice());
+	Metaball::SetCamera(camera_.get());
+	Metaball::CreateGraphicsPipeline();
 
-	MetaballModel* newMetaModel = new MetaballModel();
-	newMetaModel->CreateBuffers(dxCommon_->GetDevice());
-	metaModel1.reset(newMetaModel);
-	metaModel1->SetImageData({ 0.1, 0.3, 1, 1 });
+	Metaball* newMetaball = new Metaball();
+	newMetaball->Initialize();
+	metaball.reset(newMetaball);
+	metaball->SetImageData({ 0.1, 0.3, 1, 1 });
+	metaball->SetPosition({ 0,3,0 });
+	metaball->SetScale({ 3,3,3 });
 
-	MetaballObject3D* newMetaObject = new MetaballObject3D();
-	newMetaObject->Initialize();
-	metaObject1.reset(newMetaObject);
-	metaObject1->SetModel(metaModel1.get());
-
-	metaObject1->SetPosition({ 0,3,0 });
-	metaObject1->SetScale({ 3,3,3 });
+	Metaball* newMetaball2 = new Metaball();
+	newMetaball2->Initialize();
+	metaball2.reset(newMetaball2);
+	metaball2->SetImageData({ 1, 0.3, 1, 1 });
+	metaball2->SetPosition({ 3,3,0 });
+	metaball2->SetScale({ 3,3,3 });
 
 	//キューブの設定
 	//デバイスをセット
@@ -77,13 +64,13 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 
 void GameScene::Update()
 {
-	/*object1->Update();*/
+	//メタボール更新
+	metaball->Update();
+	metaball2->Update();
 
-	//モデルの更新
-	metaModel1->Update();
+	//キューブモデル更新
 	cubeModel1->Update();
 	//オブジェクトの更新
-	metaObject1->Update();
 	cubeObject1->Update();
 
 	camera_->Update();
@@ -94,6 +81,7 @@ void GameScene::Update()
 
 void GameScene::Draw()
 {
-	metaObject1->Draw(dxCommon_->GetCommandList());
+	metaball->Draw(dxCommon_->GetCommandList());
+	metaball2->Draw(dxCommon_->GetCommandList());
 	cubeObject1->Draw(dxCommon_->GetCommandList());
 }
