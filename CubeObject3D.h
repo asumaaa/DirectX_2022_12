@@ -9,6 +9,7 @@
 #include "d3dx12.h"
 #include "DirectXMath.h"
 #include "string.h"
+#include "input.h"
 
 class CubeObject3D
 {
@@ -32,27 +33,35 @@ public:	//静的メンバ関数
 //セッター
 	static void SetDevice(ID3D12Device* device) { CubeObject3D::device = device; }
 	static void SetCamera(Camera* camera) { CubeObject3D::camera = camera; }
+	static void SetInput(Input* input) { CubeObject3D::input = input; }
 
 private://静的メンバ変数
 	static ID3D12Device* device;
 	static Camera* camera;
+	static Input* input;
 
 public://メンバ関数
 	//初期化
 	void Initialize();
 	//更新
 	void Update();
+	//移動
+	void Move();
 	//描画
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 	//モデルのセット
 	void SetModel(CubeModel* model) { this->model = model; }
 	//グラフィックスパイプラインの生成
 	static void CreateGraphicsPipeline();
-
 	//セッター
 	void SetPosition(XMFLOAT3 pos) { position = pos; }
 	void SetScale(XMFLOAT3 sca) { scale = sca; }
 	void SetRotation(XMFLOAT3 rot) { rotation = rot; }
+	//ゲッター
+	XMFLOAT3 GetPosition() { return position; }
+	XMFLOAT3 GetRotation() { return rotation; }
+	XMFLOAT3 GetScale() { return scale; }
+
 private://メンバ変数
 //定数バッファ
 	ComPtr<ID3D12Resource>constBuffTransform;

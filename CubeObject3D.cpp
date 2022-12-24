@@ -11,6 +11,7 @@ ComPtr<ID3D12PipelineState>CubeObject3D::pipelinestate;
 
 ID3D12Device* CubeObject3D::device = nullptr;
 Camera* CubeObject3D::camera = nullptr;
+Input* CubeObject3D::input = nullptr;
 
 
 void CubeObject3D::Initialize()
@@ -31,6 +32,8 @@ void CubeObject3D::Initialize()
 
 void CubeObject3D::Update()
 {
+	Move();
+
 	XMMATRIX matScale, matRot, matTrans;
 
 	//スケール、回転、平行移動行列の計算
@@ -62,6 +65,35 @@ void CubeObject3D::Update()
 		constMap->world = matWorld;
 		constMap->cameraPos = cameraPos;
 		constBuffTransform->Unmap(0, nullptr);
+	}
+}
+
+void CubeObject3D::Move()
+{
+	//ASDWでXY、ZXでZ軸を移動
+	if (input->PushKey(DIK_D))
+	{
+		position.x += 0.1;
+	}
+	if (input->PushKey(DIK_A))
+	{
+		position.x -= 0.1;
+	}
+	if (input->PushKey(DIK_W))
+	{
+		position.y += 0.1;
+	}
+	if (input->PushKey(DIK_S))
+	{
+		position.y -= 0.1;
+	}
+	if (input->PushKey(DIK_Z))
+	{
+		position.z += 0.1;
+	}
+	if (input->PushKey(DIK_X))
+	{
+		position.z -= 0.1;
 	}
 }
 

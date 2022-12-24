@@ -9,7 +9,7 @@
 #include "d3dx12.h"
 #include "Camera.h"
 
-const int fine = 48;	//球体の細かさ	変数宣言用
+const int fine = 6;	//球体の細かさ	変数宣言用
 const int fine2 = fine * fine * 2;	//描画に使う頂点の数
 const int fine3 = fine * fine * 3;	//インデックスの数
 const int fine4 = fine * fine + fine;	//頂点の数
@@ -61,10 +61,15 @@ public:
 	void CreateVertex();
 	//色設定
 	void SetImageData(XMFLOAT4 color);
-	//更新
-	void UpdateVertex();
 	//描画
 	void Draw(ID3D12GraphicsCommandList* cmdList);
+
+	//モデルを変形させるとき呼ぶ
+	void UpdateVertex();
+	//頂点初期化(球体に戻す)
+	void InitializeVertex();
+	//一つの点に対してモデル変形
+	void UpdateGravity(XMFLOAT3 gravityPoint);
 
 	//セッター
 	void SetPosition(XMFLOAT3 pos) { position = pos; }

@@ -408,6 +408,35 @@ void Metaball::CreateBuffers()
 
 void Metaball::CreateVertex()
 {
+	InitializeVertex();
+
+	//法線の計算
+	for (int i = 0; i < fine3 / 3; i++)
+	{//三角形1つごとに計算していく
+		//三角形のインデックスを取り出して、一時的な変数に入れる
+		unsigned short indices0 = indices[i * 3 + 0];
+		unsigned short indices1 = indices[i * 3 + 1];
+		unsigned short indices2 = indices[i * 3 + 2];
+		//三角形を構成する頂点座標をベクトルに代入
+		XMVECTOR p0 = XMLoadFloat3(&vertices[indices0].pos);
+		XMVECTOR p1 = XMLoadFloat3(&vertices[indices1].pos);
+		XMVECTOR p2 = XMLoadFloat3(&vertices[indices2].pos);
+		//p0→p1ベクトル、p0→p2ベクトルを計算　(ベクトルの減算)
+		XMVECTOR v1 = DirectX::XMVectorSubtract(p1, p0);
+		XMVECTOR v2 = DirectX::XMVectorSubtract(p2, p0);
+		//外積は両方から垂直なベクトル
+		XMVECTOR normal = DirectX::XMVector3Cross(v1, v2);
+		//正規化
+		normal = DirectX::XMVector3Normalize(normal);
+		//求めた法線を頂点データに代入
+		DirectX::XMStoreFloat3(&vertices[indices0].normal, normal);
+		DirectX::XMStoreFloat3(&vertices[indices1].normal, normal);
+		DirectX::XMStoreFloat3(&vertices[indices2].normal, normal);
+	}
+}
+
+void Metaball::InitializeVertex()
+{
 	//球体一つの基礎サイズ
 	XMFLOAT3 size = { 1.0f,1.0f,1.0f };
 	//頂点データ
@@ -585,29 +614,6 @@ void Metaball::CreateVertex()
 	{
 		indices[i] = in[i];
 	}
-	//法線の計算
-	for (int i = 0; i < fine3 / 3; i++)
-	{//三角形1つごとに計算していく
-		//三角形のインデックスを取り出して、一時的な変数に入れる
-		unsigned short indices0 = indices[i * 3 + 0];
-		unsigned short indices1 = indices[i * 3 + 1];
-		unsigned short indices2 = indices[i * 3 + 2];
-		//三角形を構成する頂点座標をベクトルに代入
-		XMVECTOR p0 = XMLoadFloat3(&vertices[indices0].pos);
-		XMVECTOR p1 = XMLoadFloat3(&vertices[indices1].pos);
-		XMVECTOR p2 = XMLoadFloat3(&vertices[indices2].pos);
-		//p0→p1ベクトル、p0→p2ベクトルを計算　(ベクトルの減算)
-		XMVECTOR v1 = DirectX::XMVectorSubtract(p1, p0);
-		XMVECTOR v2 = DirectX::XMVectorSubtract(p2, p0);
-		//外積は両方から垂直なベクトル
-		XMVECTOR normal = DirectX::XMVector3Cross(v1, v2);
-		//正規化
-		normal = DirectX::XMVector3Normalize(normal);
-		//求めた法線を頂点データに代入
-		DirectX::XMStoreFloat3(&vertices[indices0].normal, normal);
-		DirectX::XMStoreFloat3(&vertices[indices1].normal, normal);
-		DirectX::XMStoreFloat3(&vertices[indices2].normal, normal);
-	}
 }
 
 void Metaball::SetImageData(XMFLOAT4 color)
@@ -650,7 +656,12 @@ void Metaball::UpdateVertex()
 	}
 	//つながりを解除
 	vertBuff->Unmap(0, nullptr);
+}
 
+void Metaball::UpdateGravity(XMFLOAT3 gravityPoint)
+{
+	//頂点初期化
+	InitializeVertex();
 }
 
 void Metaball::Draw(ID3D12GraphicsCommandList* cmdList)

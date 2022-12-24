@@ -13,11 +13,6 @@
 #include "Sprite.h"
 #include "FbxObject3D.h"
 #include "FbxModel.h"
-//#include "SphereObject3D.h"
-//#include "SphereModel.h"
-//#include "SphereSprite.h"
-//#include "MetaballModel.h"
-//#include "MetaballObject3D.h"
 #include "Metaball.h"
 #include "CubeModel.h"
 #include "CubeObject3D.h"
@@ -44,16 +39,7 @@ private:
 	//カメラ
 	std::unique_ptr<Camera> camera_;
 
-	////fbx
-	//FbxModel* model1 = nullptr;
-	//FbxObject3D* object1 = nullptr;
-
-	//メタボール
-	//std::unique_ptr<MetaballModel> metaModel1;
-	//std::unique_ptr<MetaballObject3D> metaObject1;
-
 	std::unique_ptr<Metaball> metaball;
-	std::unique_ptr<Metaball> metaball2;
 
 	//キューブ
 	std::unique_ptr<CubeModel> cubeModel1;

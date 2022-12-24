@@ -175,8 +175,6 @@
     <ClCompile Include="math\Math2.cpp" />
     <ClCompile Include="math\Matrix4.cpp" />
     <ClCompile Include="Metaball.cpp" />
-    <ClCompile Include="MetaballModel.cpp" />
-    <ClCompile Include="MetaballObject3D.cpp" />
     <ClCompile Include="Pera.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
   </ItemGroup>
@@ -210,8 +208,6 @@
     <ClInclude Include="math\Math2.h" />
     <ClInclude Include="math\Matrix4.h" />
     <ClInclude Include="Metaball.h" />
-    <ClInclude Include="MetaballModel.h" />
-    <ClInclude Include="MetaballObject3D.h" />
     <ClInclude Include="Pera.h" />
     <ClInclude Include="scene\GameScene.h" />
   </ItemGroup>
