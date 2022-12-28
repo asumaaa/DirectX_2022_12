@@ -1,9 +1,8 @@
 #include "Metaball.h"
 #include "math.h"
-#define PI 3.14159265359
 
-//#include "d3d12.h"
-//#include "d3dx12.h"
+#define PI 3.14159265359
+#define G 6.674	//万有引力定数
 
 #include <d3dcompiler.h>
 #pragma comment(lib,"d3dcompiler.lib")
@@ -226,6 +225,7 @@ void Metaball::CreateBuffers()
 
 	//頂点、頂点生成用データ、インデックスのサイズ設定
 	vertices.resize(fine2);
+	vertices2.resize(fine2);
 	v.resize(fine2);
 	v2.resize(fine4);
 	v3.resize(fine4);
@@ -608,6 +608,7 @@ void Metaball::InitializeVertex()
 	for (int i = 0; i < fine2; i++)
 	{
 		vertices[i] = v[i];
+		vertices2[i] = v[i];
 	}
 
 	for (int i = 0; i < fine3; i++)
@@ -661,7 +662,56 @@ void Metaball::UpdateVertex()
 void Metaball::UpdateGravity(XMFLOAT3 gravityPoint)
 {
 	//頂点初期化
-	InitializeVertex();
+	/*InitializeVertex();*/
+
+	//頂点の質量と各頂点の質量を仮に定義
+	float graPointWeight = 1.0f;
+	float vertexWeight = 1.0f;
+
+	float x, y, z, length, vecX,vecY, vecZ;
+
+
+	for (int i = 0; i < vertices.size(); i++)
+	{
+		//変数の値を計算
+		x = (abs(vertices[i].pos.x - gravityPoint.x)) * (abs(vertices[i].pos.x - gravityPoint.x));
+		y = (abs(vertices[i].pos.y - gravityPoint.y)) * (abs(vertices[i].pos.y - gravityPoint.y));
+		z = (abs(vertices[i].pos.z - gravityPoint.z)) * (abs(vertices[i].pos.z - gravityPoint.z));
+		length = sqrt(x + y + z);
+		vecX = abs(vertices[i].pos.x - gravityPoint.x) / length;
+		vecY = abs(vertices[i].pos.y - gravityPoint.y) / length;
+		vecZ = abs(vertices[i].pos.z - gravityPoint.z) / length;
+
+		//頂点x座標の計算
+		if (vertices2[i].pos.x - gravityPoint.x < 0)
+		{
+			vertices[i].pos.x = vertices2[i].pos.x + ((vertexWeight * graPointWeight) / (length * length)) * G * vecX;
+		}
+		else
+		{
+			vertices[i].pos.x = vertices2[i].pos.x - ((vertexWeight * graPointWeight) / (length * length)) * G * vecX;
+		}
+
+		//頂点y座標の計算
+		if (vertices2[i].pos.y - gravityPoint.y < 0)
+		{
+			vertices[i].pos.y = vertices2[i].pos.y + ((vertexWeight * graPointWeight) / (length * length)) * G * vecY;
+		}
+		else
+		{
+			vertices[i].pos.y = vertices2[i].pos.y - ((vertexWeight * graPointWeight) / (length * length)) * G * vecY;
+		}
+
+		//頂点z座標の計算
+		if (vertices2[i].pos.z - gravityPoint.z < 0)
+		{
+			vertices[i].pos.z = vertices2[i].pos.z + ((vertexWeight * graPointWeight) / (length * length)) * G * vecZ;
+		}
+		else
+		{
+			vertices[i].pos.z = vertices2[i].pos.z - ((vertexWeight * graPointWeight) / (length * length)) * G * vecZ;
+		}
+	}
 }
 
 void Metaball::Draw(ID3D12GraphicsCommandList* cmdList)

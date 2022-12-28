@@ -54,10 +54,12 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	cubeObject1->SetModel(cubeModel1.get());
 
 	cubeObject1->SetScale({ 0.5f,0.5f,0.5f });
+	cubeObject1->SetPosition({ 10.0f,0.0f,0.0f });
 }
 
 void GameScene::Update()
 {
+	metaball->UpdateGravity(cubeObject1->GetPosition());
 	metaball->UpdateVertex();
 	metaball->Update();
 
