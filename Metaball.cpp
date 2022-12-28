@@ -661,8 +661,10 @@ void Metaball::UpdateVertex()
 
 void Metaball::UpdateGravity(XMFLOAT3 gravityPoint)
 {
-	//頂点初期化
-	/*InitializeVertex();*/
+	//重力ポイントをワールド座標の原点に移動
+	XMFLOAT3 graPoint(gravityPoint.x - position.x,
+		gravityPoint.y - position.y,
+		gravityPoint.z - position.z);
 
 	//頂点の質量と各頂点の質量を仮に定義
 	float graPointWeight = 1.0f;
@@ -674,16 +676,16 @@ void Metaball::UpdateGravity(XMFLOAT3 gravityPoint)
 	for (int i = 0; i < vertices.size(); i++)
 	{
 		//変数の値を計算
-		x = (abs(vertices[i].pos.x - gravityPoint.x)) * (abs(vertices[i].pos.x - gravityPoint.x));
-		y = (abs(vertices[i].pos.y - gravityPoint.y)) * (abs(vertices[i].pos.y - gravityPoint.y));
-		z = (abs(vertices[i].pos.z - gravityPoint.z)) * (abs(vertices[i].pos.z - gravityPoint.z));
+		x = (abs(vertices[i].pos.x - graPoint.x)) * (abs(vertices[i].pos.x - graPoint.x));
+		y = (abs(vertices[i].pos.y - graPoint.y)) * (abs(vertices[i].pos.y - graPoint.y));
+		z = (abs(vertices[i].pos.z - graPoint.z)) * (abs(vertices[i].pos.z - graPoint.z));
 		length = sqrt(x + y + z);
-		vecX = abs(vertices[i].pos.x - gravityPoint.x) / length;
-		vecY = abs(vertices[i].pos.y - gravityPoint.y) / length;
-		vecZ = abs(vertices[i].pos.z - gravityPoint.z) / length;
+		vecX = abs(vertices[i].pos.x - graPoint.x) / length;
+		vecY = abs(vertices[i].pos.y - graPoint.y) / length;
+		vecZ = abs(vertices[i].pos.z - graPoint.z) / length;
 
 		//頂点x座標の計算
-		if (vertices2[i].pos.x - gravityPoint.x < 0)
+		if (vertices2[i].pos.x - graPoint.x < 0)
 		{
 			vertices[i].pos.x = vertices2[i].pos.x + ((vertexWeight * graPointWeight) / (length * length)) * G * vecX;
 		}
@@ -693,7 +695,7 @@ void Metaball::UpdateGravity(XMFLOAT3 gravityPoint)
 		}
 
 		//頂点y座標の計算
-		if (vertices2[i].pos.y - gravityPoint.y < 0)
+		if (vertices2[i].pos.y - graPoint.y < 0)
 		{
 			vertices[i].pos.y = vertices2[i].pos.y + ((vertexWeight * graPointWeight) / (length * length)) * G * vecY;
 		}
@@ -703,7 +705,7 @@ void Metaball::UpdateGravity(XMFLOAT3 gravityPoint)
 		}
 
 		//頂点z座標の計算
-		if (vertices2[i].pos.z - gravityPoint.z < 0)
+		if (vertices2[i].pos.z - graPoint.z < 0)
 		{
 			vertices[i].pos.z = vertices2[i].pos.z + ((vertexWeight * graPointWeight) / (length * length)) * G * vecZ;
 		}

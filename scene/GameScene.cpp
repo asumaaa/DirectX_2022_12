@@ -33,7 +33,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	newMetaball->Initialize();
 	metaball.reset(newMetaball);
 	metaball->SetImageData({ 0.1, 0.3, 1, 1 });
-	metaball->SetPosition({ 0,0,0 });
+	metaball->SetPosition({ 0,5,0 });
 	metaball->SetScale({ 3,3,3 });
 
 	//ƒLƒ…[ƒu‚ÌÝ’è
