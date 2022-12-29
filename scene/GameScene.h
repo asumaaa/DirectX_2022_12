@@ -39,7 +39,8 @@ private:
 	//カメラ
 	std::unique_ptr<Camera> camera_;
 
-	std::unique_ptr<Metaball> metaball;
+	size_t metaballVal = 3;
+	std::list<std::unique_ptr<Metaball>> metaballs;
 
 	//キューブ
 	std::unique_ptr<CubeModel> cubeModel1;

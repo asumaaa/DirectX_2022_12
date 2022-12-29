@@ -9,7 +9,7 @@
 #include "d3dx12.h"
 #include "Camera.h"
 
-const int fine = 36;	//球体の細かさ	変数宣言用
+const int fine = 16;	//球体の細かさ	変数宣言用
 const int fine2 = fine * fine * 2;	//描画に使う頂点の数
 const int fine3 = fine * fine * 3;	//インデックスの数
 const int fine4 = fine * fine + fine;	//頂点の数

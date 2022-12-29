@@ -29,12 +29,37 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	Metaball::SetCamera(camera_.get());
 	Metaball::CreateGraphicsPipeline();
 
-	Metaball* newMetaball = new Metaball();
+	/*Metaball* newMetaball = new Metaball();
 	newMetaball->Initialize();
 	metaball.reset(newMetaball);
 	metaball->SetImageData({ 0.1, 0.3, 1, 1 });
-	metaball->SetPosition({ 0,5,0 });
-	metaball->SetScale({ 3,3,3 });
+	metaball->SetPosition({ 0,0,0 });
+	metaball->SetScale({ 3,3,3 });*/
+
+	for (int i = 0; i < metaballVal; i++)
+	{
+		std::unique_ptr<Metaball>newMetaball = std::make_unique<Metaball>();
+		newMetaball->Initialize();
+		if (i == 0)
+		{
+			newMetaball->SetImageData({ 0.1, 0.3, 1, 1 });
+			newMetaball->SetPosition({ 0,0,0 });
+			newMetaball->SetScale({ 3,3,3 });
+		}
+		if (i == 1)
+		{
+			newMetaball->SetImageData({ 0.1, 0.3, 1, 1 });
+			newMetaball->SetPosition({ -5,0,0 });
+			newMetaball->SetScale({ 3,3,3 });
+		}
+		if (i == 2)
+		{
+			newMetaball->SetImageData({ 0.1, 0.3, 1, 1 });
+			newMetaball->SetPosition({ 5,0,0 });
+			newMetaball->SetScale({ 3,3,3 });
+		}
+		metaballs.push_back(std::move(newMetaball));
+	}
 
 	//キューブの設定
 	//デバイスをセット
@@ -59,9 +84,12 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 
 void GameScene::Update()
 {
-	metaball->UpdateGravity(cubeObject1->GetPosition());
-	metaball->UpdateVertex();
-	metaball->Update();
+	for (std::unique_ptr<Metaball>& metaball : metaballs)
+	{
+		metaball->UpdateGravity(cubeObject1->GetPosition());
+		metaball->UpdateVertex();
+		metaball->Update();
+	}
 
 	cubeObject1->Update();
 
@@ -74,6 +102,9 @@ void GameScene::Update()
 
 void GameScene::Draw()
 {
-	metaball->Draw(dxCommon_->GetCommandList());
+	for (std::unique_ptr<Metaball>& metaball : metaballs)
+	{
+		metaball->Draw(dxCommon_->GetCommandList());
+	}
 	cubeObject1->Draw(dxCommon_->GetCommandList());
 }
