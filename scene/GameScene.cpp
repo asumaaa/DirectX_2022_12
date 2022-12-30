@@ -21,20 +21,13 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	newCamera->Initialize(input_);
 	camera_.reset(newCamera);
 	camera_->SetTarget({ 0,0,0 });
-	camera_->SetEye({ 5, 2, -15 });
+	camera_->SetEye({ 0, 5, -15 });
 
 	//メタボール
 	//デバイスをセット
 	Metaball::SetDevice(dxCommon_->GetDevice());
 	Metaball::SetCamera(camera_.get());
 	Metaball::CreateGraphicsPipeline();
-
-	/*Metaball* newMetaball = new Metaball();
-	newMetaball->Initialize();
-	metaball.reset(newMetaball);
-	metaball->SetImageData({ 0.1, 0.3, 1, 1 });
-	metaball->SetPosition({ 0,0,0 });
-	metaball->SetScale({ 3,3,3 });*/
 
 	for (int i = 0; i < metaballVal; i++)
 	{
@@ -60,6 +53,17 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 		}
 		metaballs.push_back(std::move(newMetaball));
 	}
+
+	//水面
+	WaterSurface::SetDevice(dxCommon_->GetDevice());
+	WaterSurface::SetCamera(camera_.get());
+	WaterSurface::CreateGraphicsPipeline();
+	WaterSurface* newWaterSurface = new WaterSurface();
+	newWaterSurface->Initialize();
+	newWaterSurface->SetImageData({ 0.1, 0.3, 1, 1 });
+	newWaterSurface->SetPosition({ 0,0,0 });
+	newWaterSurface->SetScale({ 15,15,15 });
+	waterSurface.reset(newWaterSurface);
 
 	//キューブの設定
 	//デバイスをセット
@@ -90,7 +94,7 @@ void GameScene::Update()
 		metaball->UpdateVertex();
 		metaball->Update();
 	}
-
+	waterSurface->Update();
 	cubeObject1->Update();
 
 	camera_->Update();
@@ -102,9 +106,10 @@ void GameScene::Update()
 
 void GameScene::Draw()
 {
-	for (std::unique_ptr<Metaball>& metaball : metaballs)
+	/*for (std::unique_ptr<Metaball>& metaball : metaballs)
 	{
 		metaball->Draw(dxCommon_->GetCommandList());
-	}
+	}*/
+	waterSurface->Draw(dxCommon_->GetCommandList());
 	cubeObject1->Draw(dxCommon_->GetCommandList());
 }

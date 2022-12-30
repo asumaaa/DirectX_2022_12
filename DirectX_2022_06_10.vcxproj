@@ -177,6 +177,7 @@
     <ClCompile Include="Metaball.cpp" />
     <ClCompile Include="Pera.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
+    <ClCompile Include="WaterSurface.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3D\Model.h" />
@@ -210,6 +211,7 @@
     <ClInclude Include="Metaball.h" />
     <ClInclude Include="Pera.h" />
     <ClInclude Include="scene\GameScene.h" />
+    <ClInclude Include="WaterSurface.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BasicPS.hlsl">

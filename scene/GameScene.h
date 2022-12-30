@@ -16,6 +16,7 @@
 #include "Metaball.h"
 #include "CubeModel.h"
 #include "CubeObject3D.h"
+#include "WaterSurface.h"
 
 class GameScene
 {
@@ -41,6 +42,8 @@ private:
 
 	size_t metaballVal = 3;
 	std::list<std::unique_ptr<Metaball>> metaballs;
+
+	std::unique_ptr<WaterSurface> waterSurface;
 
 	//ÉLÉÖÅ[Éu
 	std::unique_ptr<CubeModel> cubeModel1;

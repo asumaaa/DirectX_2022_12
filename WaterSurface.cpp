@@ -1,4 +1,4 @@
-#include "Metaball.h"
+#include "WaterSurface.h"
 #include "math.h"
 
 #define PI 3.14159265359
@@ -10,13 +10,13 @@
 using namespace Microsoft::WRL;
 using namespace DirectX;
 
-ComPtr<ID3D12RootSignature>Metaball::rootsignature;
-ComPtr<ID3D12PipelineState>Metaball::pipelinestate;
+ComPtr<ID3D12RootSignature>WaterSurface::rootsignature;
+ComPtr<ID3D12PipelineState>WaterSurface::pipelinestate;
 
-ID3D12Device* Metaball::device = nullptr;
-Camera* Metaball::camera = nullptr;
+ID3D12Device* WaterSurface::device = nullptr;
+Camera* WaterSurface::camera = nullptr;
 
-void Metaball::CreateGraphicsPipeline()
+void WaterSurface::CreateGraphicsPipeline()
 {
 	HRESULT result = S_FALSE;
 	ComPtr<ID3DBlob> vsBlob; // 頂点シェーダオブジェクト
@@ -165,7 +165,7 @@ void Metaball::CreateGraphicsPipeline()
 	if (FAILED(result)) { assert(0); }
 }
 
-void Metaball::Initialize()
+void WaterSurface::Initialize()
 {
 	HRESULT result;
 
@@ -183,7 +183,7 @@ void Metaball::Initialize()
 	);
 }
 
-void Metaball::Update()
+void WaterSurface::Update()
 {
 	XMMATRIX matScale, matRot, matTrans;
 
@@ -219,17 +219,13 @@ void Metaball::Update()
 	}
 }
 
-void Metaball::CreateBuffers()
+void WaterSurface::CreateBuffers()
 {
 	HRESULT result;
 
-	//頂点、頂点生成用データ、インデックスのサイズ設定
-	vertices.resize(fine2);
-	vertices2.resize(fine2);
-	v.resize(fine2);
-	v2.resize(fine4);
-	v3.resize(fine4);
-	indices.resize(fine3);
+	//頂点、インデックスのサイズ設定
+	vertices.resize(fineness * fineness * 4);
+	indices.resize(fineness * fineness * 6);
 
 	//頂点データ生成
 	CreateVertex();
@@ -406,12 +402,12 @@ void Metaball::CreateBuffers()
 	);
 }
 
-void Metaball::CreateVertex()
+void WaterSurface::CreateVertex()
 {
 	InitializeVertex();
 
 	//法線の計算
-	for (int i = 0; i < fine3 / 3; i++)
+	for (int i = 0; i < indices.size() / 3; i++)
 	{//三角形1つごとに計算していく
 		//三角形のインデックスを取り出して、一時的な変数に入れる
 		unsigned short indices0 = indices[i * 3 + 0];
@@ -435,190 +431,78 @@ void Metaball::CreateVertex()
 	}
 }
 
-void Metaball::InitializeVertex()
+void WaterSurface::InitializeVertex()
 {
 	//球体一つの基礎サイズ
 	XMFLOAT3 size = { 1.0f,1.0f,1.0f };
 
-	//頂点データ
-	float x, y, z;
-	for (int i = 0; i < fine2; i++)
+	//頂点設定
+	const int f2 = fineness * fineness * 4;
+	const int f3 = fineness * fineness * 6;
+	const int f4 = fineness * fineness + fineness;
+	VertexPosNormalUv v[f2];
+	XMFLOAT3 v2(size.x / fineness, size.y / fineness, size.z / fineness);
+	XMFLOAT3 v3(-size.x/2, -size.y / 2, -size.z / 2 + v2.z);
+
+	for (int i = 0; i < f2;i++)
 	{
-		if (i == 0 || i % 4 == 0)
+		if (i != 0 && i % (fineness * 4) == 0)
 		{
-			if (i == 0)
-			{
-				angleX = 0;
-			}
-			if (i == 0 || i % (fine * 4) == 0)
-			{
-				angleY = (2 * PI) * ((float)(i + fine * 4) / (float)(fine * fine * 4));
-			}
-			else
-			{
-				angleY += oneAngle;
-			}
-
-			v[i].pos.x = size.x * cos(angleX) * sin(angleY);
-			v[i].pos.y = size.y * cos(angleY);
-			v[i].pos.z = size.z * sin(angleX) * sin(angleY);
-
+			v3.x = -size.x / 2;
+			v3.z += v2.z;
 		}
 
+		if (i == 0 || i % 4 == 0)
+		{
+			v3.z -= v2.z;
+			v[i] = { {v3.x, 0, v3.z}, {}, {0.0f,1.0f} };
+			/*v[i] = { {-1, 0, -1}, {}, {0.0f,1.0f} };*/
+		}
 		if (i == 1 || i % 4 == 1)
 		{
-			angleY -= oneAngle;
-
-			v[i].pos.x = size.x * cos(angleX) * sin(angleY);
-			v[i].pos.y = size.y * cos(angleY);
-			v[i].pos.z = size.z * sin(angleX) * sin(angleY);
-
+			v3.z += v2.z;
+			v[i] = { {v3.x, 0, v3.z}, {}, { 0.0f,0.0f } };
+			/*v[i] = { {-1, 0, 1}, {}, { 0.0f,0.0f } };*/
 		}
 		if (i == 2 || i % 4 == 2)
 		{
-			angleX += oneAngle;
-			angleY += oneAngle;
-
-			v[i].pos.x = size.x * cos(angleX) * sin(angleY);
-			v[i].pos.y = size.y * cos(angleY);
-			v[i].pos.z = size.z * sin(angleX) * sin(angleY);
-
+			v3.x += v2.x;
+			v3.z -= v2.z;
+			v[i] = { {v3.x, 0, v3.z},{},{1.0f,1.0f} };
+			/*v[i] = { {1, 0, -1},{},{1.0f,1.0f} };*/
 		}
 		if (i == 3 || i % 4 == 3)
 		{
-			angleY -= oneAngle;
-
-			v[i].pos.x = size.x * cos(angleX) * sin(angleY);
-			v[i].pos.y = size.y * cos(angleY);
-			v[i].pos.z = size.z * sin(angleX) * sin(angleY);
-
+			v3.z += v2.z;
+			v[i] = { {v3.x, 0, v3.z},{},{1.0f,0.0f} };
+			/*v[i] = { {1, 0, 1},{},{1.0f,0.0f} };*/
 		}
 	}
 
-	unsigned short in[fine3];
-	for (int i = 0; i < fine3; i++)
+	//インデックス設定
+	unsigned short in[f3];
+	for (int i = 0; i < f3; i++)
 	{
-		double num_ = ((i / 6) * 6) * 2 / 3;
+		float num_ = ((i / 6) * 6) * 2 / 3;
 		if (i == 0 || i % 6 == 0) { in[i] = num_; }
 		if (i == 1 || i == 4 || i % 6 == 1 || i % 6 == 4) { in[i] = num_ + 1; }
 		if (i == 2 || i == 3 || i % 6 == 2 || i % 6 == 3) { in[i] = num_ + 2; }
 		if (i == 5 || i % 6 == 5) { in[i] = num_ + 3; }
 	}
 
-	angleY = 0;
-	angleX = 0;
-	//頂点データ	上から順番に割り当てる
-	for (int i = 0; i < fine4; i++)
-	{
-		if (i == 0 || i % fine == 0)
-		{
-			angleX = 0;
-		}
-		else
-		{
-			angleX += oneAngle;
-		}
-		if (i == 0)
-		{
-			angleY = 0;
-		}
-		else if (i != 0 && i >= fine && i % fine == 0)
-		{
-			angleY = (2 * PI) * ((float)(i) / (float)(fine * fine));
-		}
-		v2[i].pos.x = size.x * cos(angleX) * sin(angleY);
-		v2[i].pos.y = size.y * cos(angleY);
-		v2[i].pos.z = size.z * sin(angleX) * sin(angleY);
-		v3[i].pos.x = v2[i].pos.x;
-		v3[i].pos.y = v2[i].pos.y;
-		v3[i].pos.z = v2[i].pos.z;
-	}
-
-
-	for (int i = 0; i < fine2; i++)
-	{
-		for (int j = 0; j < fine4; j++)
-		{
-			//uv(0.0f,0.0f)
-			if (i == 1 || i % 4 == 1)
-			{
-				if (i == 1)
-				{
-					v[i].parent = &v2[0];
-				}
-				else if (i % 4 == 1 && i != 1)
-				{
-					v[i].parent = &v2[i / 4];
-				}
-			}
-			//uv(1.0f,0.0f)
-			if (i == 3 || i % 4 == 3)
-			{
-				if (i == 3)
-				{
-					v[i].parent = &v2[1];
-				}
-				else if (i % 4 == 3)
-				{
-					if (i % (fine * 4) != (fine * 4) - 1 && i != (fine * 4) - 1)
-					{
-						v[i].parent = &v2[(i + 1) / 4];
-					}
-					if (i % (fine * 4) == (fine * 4) - 1 || i == (fine * 4) - 1)
-					{
-						v[i].parent = &v2[(i / 4) - (fine - 1)];
-					}
-				}
-			}
-
-			//uv(0.0f,1.0f)
-			if (i == 0 || i % 4 == 0)
-			{
-				if (i == 0)
-				{
-					v[i].parent = &v2[fine];
-				}
-				else if (i % 4 == 0 && i != 0)
-				{
-					v[i].parent = &v2[(i / 4) + fine];
-				}
-			}
-
-			if (i == 2 || i % 4 == 2)
-			{
-				if (i == 2)
-				{
-					v[i].parent = &v2[fine + 1];
-				}
-				else if (i % 4 == 2)
-				{
-					if (i % (fine * 4) != (fine * 4) - 2 && i != (fine * 4) - 2)
-					{
-						v[i].parent = &v2[(i + 2) / 4 + fine];
-					}
-					if (i % (fine * 4) == (fine * 4) - 2 || i == (fine * 4) - 2)
-					{
-						v[i].parent = &v2[(i / 4) - (fine - 1) + fine];
-					}
-				}
-			}
-		}
-	}
-
 	//頂点座標、インデックスデータを代入
-	for (int i = 0; i < fine2; i++)
+	for (int i = 0; i < f2; i++)
 	{
 		vertices[i] = v[i];
-		vertices2[i] = v[i];
 	}
 
-	for (int i = 0; i < fine3; i++)
+	for (int i = 0; i < f3; i++)
 	{
 		indices[i] = in[i];
 	}
 }
 
-void Metaball::SetImageData(XMFLOAT4 color)
+void WaterSurface::SetImageData(XMFLOAT4 color)
 {
 	HRESULT result;
 	for (size_t i = 0; i < imageDataCount; i++)
@@ -638,7 +522,7 @@ void Metaball::SetImageData(XMFLOAT4 color)
 	);
 }
 
-void Metaball::UpdateVertex()
+void WaterSurface::UpdateVertex()
 {
 	//-----この上に頂点の更新処理を書く-----
 
@@ -660,64 +544,15 @@ void Metaball::UpdateVertex()
 	vertBuff->Unmap(0, nullptr);
 }
 
-void Metaball::UpdateGravity(XMFLOAT3 gravityPoint)
+void WaterSurface::UpdateWave(XMFLOAT3 waveSource)
 {
 	//重力ポイントをワールド座標の原点に移動
-	XMFLOAT3 graPoint(gravityPoint.x - position.x,
-		gravityPoint.y - position.y,
-		gravityPoint.z - position.z);
-
-	//頂点の質量と各頂点の質量を仮に定義
-	float graPointWeight = 1.0f;
-	float vertexWeight = 1.0f;
-
-	float x, y, z, length, vecX,vecY, vecZ;
-
-
-	for (int i = 0; i < vertices.size(); i++)
-	{
-		//変数の値を計算
-		x = (abs(vertices[i].pos.x - graPoint.x)) * (abs(vertices[i].pos.x - graPoint.x));
-		y = (abs(vertices[i].pos.y - graPoint.y)) * (abs(vertices[i].pos.y - graPoint.y));
-		z = (abs(vertices[i].pos.z - graPoint.z)) * (abs(vertices[i].pos.z - graPoint.z));
-		length = sqrt(x + y + z);
-		vecX = abs(vertices[i].pos.x - graPoint.x) / length;
-		vecY = abs(vertices[i].pos.y - graPoint.y) / length;
-		vecZ = abs(vertices[i].pos.z - graPoint.z) / length;
-
-		//頂点x座標の計算
-		if (vertices2[i].pos.x - graPoint.x < 0)
-		{
-			vertices[i].pos.x = vertices2[i].pos.x + ((vertexWeight * graPointWeight) / (length * length)) * G * vecX;
-		}
-		else
-		{
-			vertices[i].pos.x = vertices2[i].pos.x - ((vertexWeight * graPointWeight) / (length * length)) * G * vecX;
-		}
-
-		//頂点y座標の計算
-		if (vertices2[i].pos.y - graPoint.y < 0)
-		{
-			vertices[i].pos.y = vertices2[i].pos.y + ((vertexWeight * graPointWeight) / (length * length)) * G * vecY;
-		}
-		else
-		{
-			vertices[i].pos.y = vertices2[i].pos.y - ((vertexWeight * graPointWeight) / (length * length)) * G * vecY;
-		}
-
-		//頂点z座標の計算
-		if (vertices2[i].pos.z - graPoint.z < 0)
-		{
-			vertices[i].pos.z = vertices2[i].pos.z + ((vertexWeight * graPointWeight) / (length * length)) * G * vecZ;
-		}
-		else
-		{
-			vertices[i].pos.z = vertices2[i].pos.z - ((vertexWeight * graPointWeight) / (length * length)) * G * vecZ;
-		}
-	}
+	XMFLOAT3 waveSource(waveSource.x - position.x,
+		waveSource.y - position.y,
+		waveSource.z - position.z);
 }
 
-void Metaball::Draw(ID3D12GraphicsCommandList* cmdList)
+void WaterSurface::Draw(ID3D12GraphicsCommandList* cmdList)
 {
 	//パイプラインステートの設定
 	cmdList->SetPipelineState(pipelinestate.Get());
