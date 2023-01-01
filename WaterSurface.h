@@ -9,7 +9,7 @@
 #include "d3dx12.h"
 #include "Camera.h"
 
-const int fineness = 30;	//…–Ê‚Ì×‚©‚³
+const int fineness = 50;	//…–Ê‚Ì×‚©‚³
 
 class WaterSurface
 {

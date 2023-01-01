@@ -547,7 +547,7 @@ void WaterSurface::UpdateVertex()
 void WaterSurface::UpdateWave(XMFLOAT3 waveSource)
 {
 	//重力ポイントをワールド座標の原点に移動
-	XMFLOAT3 waveSource(waveSource.x - position.x,
+	XMFLOAT3 waveSoruce_(waveSource.x - position.x,
 		waveSource.y - position.y,
 		waveSource.z - position.z);
 }
