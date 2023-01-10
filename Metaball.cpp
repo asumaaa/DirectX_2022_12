@@ -3,6 +3,7 @@
 
 #define PI 3.14159265359
 #define G 6.674	//万有引力定数
+#define GAcceleration 0.980665	//重力加速度
 
 #include <d3dcompiler.h>
 #pragma comment(lib,"d3dcompiler.lib")
@@ -99,8 +100,8 @@ void Metaball::CreateGraphicsPipeline()
 	gpipeline.SampleMask = D3D12_DEFAULT_SAMPLE_MASK; // 標準設定
 	// ラスタライザステート
 	gpipeline.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
-	gpipeline.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
-	gpipeline.RasterizerState.FillMode = D3D12_FILL_MODE_WIREFRAME;
+	/*gpipeline.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;*/
+	gpipeline.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;
 	// デプスステンシルステート
 	gpipeline.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
 
@@ -638,6 +639,14 @@ void Metaball::SetImageData(XMFLOAT4 color)
 	);
 }
 
+//void Metaball::UpdateCollision(Collision* collision)
+//{
+//	while (collision->Update())
+//	{
+//		position.y += 0.1f;
+//	}
+//}
+
 void Metaball::UpdateVertex()
 {
 	//-----この上に頂点の更新処理を書く-----
@@ -715,6 +724,19 @@ void Metaball::UpdateGravity(XMFLOAT3 gravityPoint)
 			vertices[i].pos.z = vertices2[i].pos.z - ((vertexWeight * graPointWeight) / (length * length)) * G * vecZ;
 		}
 	}
+}
+
+void Metaball::Move()
+{
+	//60フレームでタイマーを1進める
+	fallTimer += 1.0f / 60.0f;
+
+	float v = GAcceleration * fallTimer;
+	fallVelocity.y = -(GAcceleration * fallTimer);
+
+	position.x += fallVelocity.x;
+	position.y += fallVelocity.y;
+	position.z += fallVelocity.z;
 }
 
 void Metaball::Draw(ID3D12GraphicsCommandList* cmdList)

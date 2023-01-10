@@ -32,8 +32,6 @@ void CubeObject3D::Initialize()
 
 void CubeObject3D::Update()
 {
-	Move();
-
 	XMMATRIX matScale, matRot, matTrans;
 
 	//スケール、回転、平行移動行列の計算

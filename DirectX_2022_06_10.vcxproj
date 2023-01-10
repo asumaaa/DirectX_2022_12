@@ -157,6 +157,7 @@
     <ClCompile Include="base\Texture.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Collision.cpp" />
     <ClCompile Include="CubeModel.cpp" />
     <ClCompile Include="CubeObject3D.cpp" />
     <ClCompile Include="fbx\FbxLoader.cpp" />
@@ -190,6 +191,7 @@
     <ClInclude Include="base\Texture.h" />
     <ClInclude Include="base\WinApp.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Collision.h" />
     <ClInclude Include="CubeModel.h" />
     <ClInclude Include="CubeObject3D.h" />
     <ClInclude Include="fbx\FbxLoader.h" />
