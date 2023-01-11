@@ -1,17 +1,14 @@
 #include "Collision.h"
 #include "Math2.h"
 
-void Collision::SetObject(CubeObject3D* cube, Metaball* metaball)
+void Collision::SetObject(DirectX::XMFLOAT3 cubePos, DirectX::XMFLOAT3 cubeScale)
 {
 	//引数から受け取った値をメンバ変数に代入
-	this->cube1 = cube;
-	this->metaball1 = metaball;
-}
+	/*this->cubePos = cubePos;
+	this->cubeScale = cubeScale;*/
 
-bool Collision::Update()
-{
 	//cubeVertex1の値を設定
-	cubeVertex1.c = cube1->GetPosition();
+	cubeVertex1.c = cubePos;
 	//各頂点の座標を設定 0<-x-y-z> 1<-xy-z> 2<x-y-z> 3<xy-z> 4<-x-yz> 5<-xyz> 6<x-yz> 7<xyz>
 	/*cubeVertex1.v[0] = { cube1->GetPosition().x - cube1->GetScale().x,cube1->GetPosition().y - cube1->GetScale().y, cube1->GetPosition().z - -cube1->GetScale().z };
 	cubeVertex1.v[1] = { cube1->GetPosition().x - cube1->GetScale().x,cube1->GetPosition().y + cube1->GetScale().y, cube1->GetPosition().z - -cube1->GetScale().z };
@@ -23,12 +20,15 @@ bool Collision::Update()
 	cubeVertex1.v[7] = { cube1->GetPosition().x + cube1->GetScale().x,cube1->GetPosition().y + cube1->GetScale().y, cube1->GetPosition().z + -cube1->GetScale().z };*/
 
 	//min,maxの設定
-	cubeVertex1.min = { cube1->GetPosition().x - cube1->GetScale().x ,cube1->GetPosition().y - cube1->GetScale().y,cube1->GetPosition().z - cube1->GetScale().z };
-	cubeVertex1.max = { cube1->GetPosition().x + cube1->GetScale().x ,cube1->GetPosition().y + cube1->GetScale().y,cube1->GetPosition().z + cube1->GetScale().z };
+	cubeVertex1.min = { cubePos.x - cubeScale.x ,cubePos.y - cubeScale.y,cubePos.z - cubeScale.z };
+	cubeVertex1.max = { cubePos.x + cubeScale.x ,cubePos.y + cubeScale.y,cubePos.z + cubeScale.z };
+}
 
+bool Collision::Update(DirectX::XMFLOAT3 spherePos, DirectX::XMFLOAT3 sphereScale)
+{
 	//SphereVertex1の値を設定
-	sphereVertex1.c = metaball1->GetPosition();
-	sphereVertex1.r = metaball1->GetScale();
+	sphereVertex1.c = spherePos;
+	sphereVertex1.r = sphereScale;
 
 	//円の中心座標が直方体の範囲内にある場合のベクトル
 	DirectX::XMFLOAT3 v{};

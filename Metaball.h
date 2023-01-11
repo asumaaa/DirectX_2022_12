@@ -8,8 +8,7 @@
 #include "d3d12.h"
 #include "d3dx12.h"
 #include "Camera.h"
-#include "list"
-#include "memory"
+#include "Collision.h"
 
 const int fine = 16;	//球体の細かさ	変数宣言用
 const int fine2 = fine * fine * 2;	//描画に使う頂点の数
@@ -56,7 +55,7 @@ public:
 	//初期化
 	void Initialize();
 	//更新
-	void Update();
+	void Update(Collision* collision);
 	//バッファ生成
 	void CreateBuffers();
 	//頂点生成
@@ -64,7 +63,7 @@ public:
 	//色設定
 	void SetImageData(XMFLOAT4 color);
 	//当たり判定
-	/*void UpdateCollision(Collision* collision);*/
+	void UpdateCollision(Collision* collision);
 	//描画
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 

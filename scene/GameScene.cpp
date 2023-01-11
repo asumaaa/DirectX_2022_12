@@ -53,21 +53,20 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	cubeObject1.reset(newCubeObject);
 	cubeObject1->SetModel(cubeModel1.get());
 
-	cubeObject1->SetScale({ 30.0f,1.0f,30.0f });
+	cubeObject1->SetScale({ 30.0f,3.0f,30.0f });
 	cubeObject1->SetPosition({ 0.0f,0.0f,0.0f });
 
 	//“–‚½‚è”»’è‚ÌÝ’è
 	Collision* newCollision = new Collision();
-	newCollision->SetObject(cubeObject1.get(), metaball.get());
+	newCollision->SetObject(cubeObject1->GetPosition(), cubeObject1->GetScale());
 	collision.reset(newCollision);
 }
 
 void GameScene::Update()
 {
 	
-	metaball->Move();
 	/*metaball->UpdateCollision(collision.get());*/
-	metaball->Update();
+	metaball->Update(collision.get());
 
 	cubeObject1->Move();
 	cubeObject1->Update();

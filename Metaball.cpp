@@ -184,8 +184,39 @@ void Metaball::Initialize()
 	);
 }
 
-void Metaball::Update()
+void Metaball::Update(Collision* collision)
 {
+	//60フレームでタイマーを1進める
+	fallTimer += 1.0f / 60.0f;
+
+	float v = GAcceleration * fallTimer;
+	fallVelocity.y = -(GAcceleration * fallTimer);
+
+	position.x += fallVelocity.x;
+	position.y += fallVelocity.y;
+	position.z += fallVelocity.z;
+
+	if (collision->Update(position, scale) == 1)
+	{
+		fallVelocity.y = 0;
+		fallTimer = 0;
+	}
+
+	while (collision->Update(position, scale))
+	{
+		position.y += 0.05f;
+	}
+
+	////60フレームでタイマーを1進める
+	//fallTimer += 1.0f / 60.0f;
+
+	//float v = GAcceleration * fallTimer;
+	//fallVelocity.y = -(GAcceleration * fallTimer);
+
+	//position.x += fallVelocity.x;
+	//position.y += fallVelocity.y;
+	//position.z += fallVelocity.z;
+
 	XMMATRIX matScale, matRot, matTrans;
 
 	//スケール、回転、平行移動行列の計算
@@ -639,13 +670,13 @@ void Metaball::SetImageData(XMFLOAT4 color)
 	);
 }
 
-//void Metaball::UpdateCollision(Collision* collision)
-//{
-//	while (collision->Update())
-//	{
-//		position.y += 0.1f;
-//	}
-//}
+void Metaball::UpdateCollision(Collision* collision)
+{
+	while (collision->Update(position,scale))
+	{
+		position.y += 0.2f;
+	}
+}
 
 void Metaball::UpdateVertex()
 {
