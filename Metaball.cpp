@@ -667,8 +667,8 @@ void Metaball::UpdateGravity(XMFLOAT3 gravityPoint)
 		gravityPoint.z - position.z);
 
 	//頂点の質量と各頂点の質量を仮に定義
-	float graPointWeight = 2.0f;
-	float vertexWeight = 2.0f;
+	float graPointWeight = 1.0f;
+	float vertexWeight = 1.0f;
 
 	float x, y, z, length, vecX,vecY, vecZ;
 
