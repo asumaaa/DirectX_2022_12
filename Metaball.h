@@ -8,6 +8,7 @@
 #include "d3d12.h"
 #include "d3dx12.h"
 #include "Camera.h"
+//#include "Collision.h"
 
 const int fine = 16;	//球体の細かさ	変数宣言用
 const int fine2 = fine * fine * 2;	//描画に使う頂点の数
@@ -61,6 +62,8 @@ public:
 	void CreateVertex();
 	//色設定
 	void SetImageData(XMFLOAT4 color);
+	//当たり判定
+	/*void UpdateCollision(Collision* collision);*/
 	//描画
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 
@@ -71,10 +74,19 @@ public:
 	//一つの点に対してモデル変形
 	void UpdateGravity(XMFLOAT3 gravityPoint);
 
+	//移動
+	void Move();
+
 	//セッター
 	void SetPosition(XMFLOAT3 pos) { position = pos; }
 	void SetScale(XMFLOAT3 sca) { scale = sca; }
 	void SetRotation(XMFLOAT3 rot) { rotation = rot; }
+
+	//ゲッター
+	XMFLOAT3 GetPosition() { return position; }
+	XMFLOAT3 GetRotation() { return rotation; }
+	XMFLOAT3 GetScale() { return scale; }
+
 public:
 	//頂点データ配列
 	struct VertexPosNormalUv
@@ -144,4 +156,8 @@ private:
 	XMMATRIX matWorld;
 	//モデル
 	/*MetaballModel* model = nullptr;*/
+
+	//移動用変数
+	XMFLOAT3 fallVelocity = { 0,0,0 };
+	float fallTimer = 0.0f;
 };

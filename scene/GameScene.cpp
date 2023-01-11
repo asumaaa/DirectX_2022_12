@@ -106,10 +106,10 @@ void GameScene::Update()
 
 void GameScene::Draw()
 {
-	/*for (std::unique_ptr<Metaball>& metaball : metaballs)
+	for (std::unique_ptr<Metaball>& metaball : metaballs)
 	{
 		metaball->Draw(dxCommon_->GetCommandList());
-	}*/
+	}
 	waterSurface->Draw(dxCommon_->GetCommandList());
 	cubeObject1->Draw(dxCommon_->GetCommandList());
 }
