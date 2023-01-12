@@ -225,6 +225,7 @@ void WaterSurface::CreateBuffers()
 
 	//頂点、インデックスのサイズ設定
 	vertices.resize(fineness * fineness * 4);
+	v.resize(fineness * fineness * 4);
 	indices.resize(fineness * fineness * 6);
 
 	//頂点データ生成
@@ -440,7 +441,6 @@ void WaterSurface::InitializeVertex()
 	const int f2 = fineness * fineness * 4;
 	const int f3 = fineness * fineness * 6;
 	const int f4 = fineness * fineness + fineness;
-	VertexPosNormalUv v[f2];
 	XMFLOAT3 v2(size.x / fineness, size.y / fineness, size.z / fineness);
 	XMFLOAT3 v3(-size.x/2, -size.y / 2, -size.z / 2 + v2.z);
 

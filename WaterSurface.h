@@ -9,8 +9,7 @@
 #include "d3dx12.h"
 #include "Camera.h"
 
-const int fineness = 50;	//水面の細かさ
-
+const int fineness = 150;	//水面の細かさ
 class WaterSurface
 {
 private:	//エイリアス
@@ -83,6 +82,7 @@ public:
 	};
 	//頂点データ配列
 	vector<VertexPosNormalUv>vertices;
+	vector<VertexPosNormalUv>v;
 	//頂点インデックス配列
 	vector<unsigned short>indices;
 private:
@@ -132,4 +132,7 @@ private:
 	XMMATRIX matWorld;
 	//モデル
 	/*WaterSurfaceModel* model = nullptr;*/
+
+	//波用のタイマー
+	float waveTimer;
 };

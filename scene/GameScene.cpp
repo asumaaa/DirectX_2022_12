@@ -36,20 +36,20 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 		if (i == 0)
 		{
 			newMetaball->SetImageData({ 0.1, 0.3, 1, 1 });
-			newMetaball->SetPosition({ 0,0,0 });
-			newMetaball->SetScale({ 3,3,3 });
+			newMetaball->SetPosition({ 0,5,0 });
+			newMetaball->SetScale({ 1.5,1.5,1.5 });
 		}
 		if (i == 1)
 		{
 			newMetaball->SetImageData({ 0.1, 0.3, 1, 1 });
-			newMetaball->SetPosition({ -5,0,0 });
-			newMetaball->SetScale({ 3,3,3 });
+			newMetaball->SetPosition({ -5,5,0 });
+			newMetaball->SetScale({ 1.5,1.5,1.5 });
 		}
 		if (i == 2)
 		{
 			newMetaball->SetImageData({ 0.1, 0.3, 1, 1 });
-			newMetaball->SetPosition({ 5,0,0 });
-			newMetaball->SetScale({ 3,3,3 });
+			newMetaball->SetPosition({ 5,5,0 });
+			newMetaball->SetScale({ 1.5,1.5,1.5 });
 		}
 		metaballs.push_back(std::move(newMetaball));
 	}

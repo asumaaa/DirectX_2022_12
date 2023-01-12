@@ -187,14 +187,14 @@ void Metaball::Initialize()
 void Metaball::Update()
 {
 	//60フレームでタイマーを1進める
-	fallTimer += 1.0f / 60.0f;
+	/*fallTimer += 1.0f / 60.0f;
 
 	float v = GAcceleration * fallTimer;
 	fallVelocity.y = -(GAcceleration * fallTimer);
 
 	position.x += fallVelocity.x;
 	position.y += fallVelocity.y;
-	position.z += fallVelocity.z;
+	position.z += fallVelocity.z;*/
 
 	/*if (collision->Update(position, scale) == 1)
 	{
@@ -708,8 +708,8 @@ void Metaball::UpdateGravity(XMFLOAT3 gravityPoint)
 		gravityPoint.z - position.z);
 
 	//頂点の質量と各頂点の質量を仮に定義
-	float graPointWeight = 1.0f;
-	float vertexWeight = 1.0f;
+	float graPointWeight = 0.7f;
+	float vertexWeight = 0.7f;
 
 	float x, y, z, length, vecX,vecY, vecZ;
 
