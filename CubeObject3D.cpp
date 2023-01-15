@@ -69,7 +69,7 @@ void CubeObject3D::Update()
 void CubeObject3D::Move()
 {
 	//ASDW‚ÅXYAZX‚ÅZŽ²‚ðˆÚ“®
-	if (input->PushKey(DIK_D))
+	/*if (input->PushKey(DIK_D))
 	{
 		position.x += 0.1;
 	}
@@ -92,7 +92,7 @@ void CubeObject3D::Move()
 	if (input->PushKey(DIK_X))
 	{
 		position.z -= 0.1;
-	}
+	}*/
 }
 
 void CubeObject3D::Draw(ID3D12GraphicsCommandList* cmdList)

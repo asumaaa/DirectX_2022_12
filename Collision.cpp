@@ -20,15 +20,26 @@ void Collision::SetObject(DirectX::XMFLOAT3 cubePos, DirectX::XMFLOAT3 cubeScale
 	cubeVertex1.v[7] = { cube1->GetPosition().x + cube1->GetScale().x,cube1->GetPosition().y + cube1->GetScale().y, cube1->GetPosition().z + -cube1->GetScale().z };*/
 
 	//min,maxの設定
-	cubeVertex1.min = { cubePos.x - cubeScale.x ,cubePos.y - cubeScale.y,cubePos.z - cubeScale.z };
-	cubeVertex1.max = { cubePos.x + cubeScale.x ,cubePos.y + cubeScale.y,cubePos.z + cubeScale.z };
+	cubeVertex1.min = { cubePos.x - (cubeScale.x / 2) ,cubePos.y - (cubeScale.y),cubePos.z - (cubeScale.z / 2) };
+	cubeVertex1.max = { cubePos.x + (cubeScale.x / 2) ,cubePos.y + (cubeScale.y),cubePos.z + (cubeScale.z / 2) };
 }
 
 bool Collision::Update(DirectX::XMFLOAT3 spherePos, DirectX::XMFLOAT3 sphereScale)
 {
+	//cubeVertex1の値を設定
+	/*cubeVertex1.c = cubePos;*/
+
+	//min,maxの設定
+	/*cubeVertex1.min = { cubePos.x - (cubeScale.x * 2) ,cubePos.y - (cubeScale.y * 2),cubePos.z - (cubeScale.z * 2) };
+	cubeVertex1.max = { cubePos.x + (cubeScale.x * 2) ,cubePos.y + (cubeScale.y * 2),cubePos.z + (cubeScale.z * 2) };*/
+	/*cubeVertex1.min = { cubePos.x - (cubeScale.x *1.5f) ,cubePos.y - (cubeScale.y * 1.5f),cubePos.z - (cubeScale.z * 1.5f) };
+	cubeVertex1.max = { cubePos.x + (cubeScale.x *1.5f) ,cubePos.y + (cubeScale.y * 1.5f),cubePos.z + (cubeScale.z * 1.5f) }; */
+
 	//SphereVertex1の値を設定
 	sphereVertex1.c = spherePos;
 	sphereVertex1.r = sphereScale;
+	sphereVertex1.min = { spherePos.x - (sphereScale.x / 2) ,spherePos.y - (sphereScale.y),spherePos.z - (sphereScale.z / 2) };
+	sphereVertex1.max = { spherePos.x + (sphereScale.x / 2) ,spherePos.y + (sphereScale.y),spherePos.z + (sphereScale.z / 2) };
 
 	//円の中心座標が直方体の範囲内にある場合のベクトル
 	DirectX::XMFLOAT3 v{};
@@ -37,9 +48,9 @@ bool Collision::Update(DirectX::XMFLOAT3 spherePos, DirectX::XMFLOAT3 sphereScal
 	bool yFlag = false;
 	bool zFlag = false;
 	//各軸の座標が矩形の範囲内にある場合フラグを立てる
-	if (sphereVertex1.c.x > cubeVertex1.min.x && sphereVertex1.c.x < cubeVertex1.max.x)xFlag = true;
-	if (sphereVertex1.c.y > cubeVertex1.min.y && sphereVertex1.c.y < cubeVertex1.max.y)yFlag = true;
-	if (sphereVertex1.c.z > cubeVertex1.min.z && sphereVertex1.c.z < cubeVertex1.max.z)zFlag = true;
+	if (sphereVertex1.max.x >= cubeVertex1.min.x && sphereVertex1.min.x <= cubeVertex1.max.x)xFlag = true;
+	if (sphereVertex1.max.y >= cubeVertex1.min.y && sphereVertex1.min.y <= cubeVertex1.max.y)yFlag = true;
+	if (sphereVertex1.max.z >= cubeVertex1.min.z && sphereVertex1.min.z <= cubeVertex1.max.z)zFlag = true;
 
 	//全ての座標が範囲内にあったら当たり
 	if (xFlag == true && yFlag == true && zFlag == true)return 1;

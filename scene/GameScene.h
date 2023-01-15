@@ -29,6 +29,7 @@ public:
 	void Initialize();
 	void Update();
 	void Draw();
+	void Reset();
 
 	//メンバ変数
 private: 
@@ -42,15 +43,49 @@ private:
 	std::unique_ptr<Camera> camera_;
 
 	size_t metaballVal = 1;
-	/*std::list<std::unique_ptr<Metaball>> metaballs;*/
 	std::unique_ptr<Metaball>metaball;
-
-	/*std::unique_ptr<WaterSurface> waterSurface;*/
 
 	//キューブ
 	std::unique_ptr<CubeModel> cubeModel1;
-	std::unique_ptr<CubeObject3D> cubeObject1;
+	std::unique_ptr<CubeModel> cubeModel2;
+
+	//ステージに使うタイル
+	std::list<std::unique_ptr<CubeObject3D>> tiles;
+	size_t tileVal = 61;
 
 	//当たり判定
-	std::unique_ptr<Collision> collision;
+	std::list<std::unique_ptr<Collision>> collisions;
+
+	//スクロールのベクトル
+	DirectX::XMFLOAT3 scrollVector = {0,0,0};
+	//カメラの位置
+	DirectX::XMFLOAT3 eye = { -45,45, -45 };
+	DirectX::XMFLOAT3 target = { 0,0, 0 };
+
+	//ゲームのタイマー
+	float GameTimer = 0;
+	float PI = 3.14159265359f;
+
+	int tileFlag[61];
+	int preTileFlag[61];
+
+	//スプライト
+	//スプライト共通データ生成
+	SpriteCommon spriteCommon_;
+	Sprite* sprite_ = new Sprite;
+	Sprite sprite1;	//title.png
+	Sprite sprite2;	//title.png
+	Sprite sprite3;	//title.png
+	Sprite sprite4;	//title.png
+	Sprite sprite5;	//title.png
+	Sprite sprite6;	//title.png
+	Sprite sprite7;	//title.png
+	Sprite sprite8;	//title.png
+
+	//0title 1game 2retory
+	int gameState = 0;
+
+	int tileCount = 0;
+
+	float deadLine = 0;
 };

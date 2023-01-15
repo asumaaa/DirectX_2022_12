@@ -1,6 +1,8 @@
 #include "Math2.h"
 #include "cmath"
 #include "Matrix4.h"
+#include "math.h"
+#include "stdlib.h"
 
 void rollRotation(XMFLOAT3 *vector, XMFLOAT3 rotation)
 {
@@ -35,4 +37,17 @@ XMFLOAT3 vector3Normalize(XMFLOAT3 vector_)
 	v.z = vector_.z / vector3Length(vector_);
 
 	return v;
+}
+
+int RNG(int min, int max, bool preciseMode)
+{
+	if (!preciseMode) {
+		return (rand() % (max + 1 - min) + min);
+	}
+
+	int ret = 0;
+	do {
+		ret = rand();
+	} while (ret >= RAND_MAX - RAND_MAX % (max + 1 - min));
+	ret = ret % (max + 1 - min) + min;
 }

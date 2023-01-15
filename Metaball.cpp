@@ -3,7 +3,7 @@
 
 #define PI 3.14159265359
 #define G 6.674	//万有引力定数
-#define GAcceleration 0.980665	//重力加速度
+#define GAcceleration 9.80665 * 1/10	//重力加速度
 
 #include <d3dcompiler.h>
 #pragma comment(lib,"d3dcompiler.lib")
@@ -16,6 +16,7 @@ ComPtr<ID3D12PipelineState>Metaball::pipelinestate;
 
 ID3D12Device* Metaball::device = nullptr;
 Camera* Metaball::camera = nullptr;
+Input* Metaball::input = nullptr;
 
 void Metaball::CreateGraphicsPipeline()
 {
@@ -184,38 +185,84 @@ void Metaball::Initialize()
 	);
 }
 
-void Metaball::Update(Collision* collision)
+void Metaball::Update()
 {
-	//60フレームでタイマーを1進める
-	fallTimer += 1.0f / 60.0f;
-
-	float v = GAcceleration * fallTimer;
-	fallVelocity.y = -(GAcceleration * fallTimer);
-
-	position.x += fallVelocity.x;
-	position.y += fallVelocity.y;
-	position.z += fallVelocity.z;
-
-	if (collision->Update(position, scale) == 1)
+	//ASDWでXY、ZXでZ軸を移動
+	if (input->PushKey(DIK_D))
 	{
-		fallVelocity.y = 0;
-		fallTimer = 0;
+		position.x += 0.55 * 1/4 * 2.3f;
+		position.z -= 0.55 * 1/6 * 2.3f;
+	}
+	if (input->PushKey(DIK_A))
+	{
+		position.x -= 0.55 * 1 / 4 * 2.3f;
+		position.z += 0.55 * 1 / 6 * 2.3f;
+	}
+	/*if (input->PushKey(DIK_W))
+	{
+		position.y += 0.55;
+	}
+	if (input->PushKey(DIK_S))
+	{
+		position.y -= 0.55;
+	}*/
+	if (input->PushKey(DIK_W))
+	{
+		position.x += 0.55 * 1 / 4 * 2.3f;
+		position.z += 0.55 * 1 / 3 * 2.3f;
+	}
+	if (input->PushKey(DIK_S))
+	{
+		position.x -= 0.55 * 1 / 4 * 2.3f;
+		position.z -= 0.55 * 1 / 3 * 2.3f;
 	}
 
-	while (collision->Update(position, scale))
+	//if (input->PushKey(DIK_D))
+	//{
+	//	position.x += 0.55;
+	//}
+	//if (input->PushKey(DIK_A))
+	//{
+	//	position.x -= 0.55;
+	//}
+	///*if (input->PushKey(DIK_W))
+	//{
+	//	position.y += 0.55;
+	//}
+	//if (input->PushKey(DIK_S))
+	//{
+	//	position.y -= 0.55;
+	//}*/
+	//if (input->PushKey(DIK_W))
+	//{
+	//	position.z += 0.55;
+	//}
+	//if (input->PushKey(DIK_S))
+	//{
+	//	position.z -= 0.55;
+	//}
+
+	//スペースキーでジャンプ
+	if(input->PushKey(DIK_SPACE) && groundFlag == true)
 	{
-		position.y += 0.05f;
+		//接地フラグをfalseに
+		fallTimer = -1;
+		groundFlag = false;
 	}
 
-	////60フレームでタイマーを1進める
-	//fallTimer += 1.0f / 60.0f;
-
-	//float v = GAcceleration * fallTimer;
-	//fallVelocity.y = -(GAcceleration * fallTimer);
-
-	//position.x += fallVelocity.x;
-	//position.y += fallVelocity.y;
-	//position.z += fallVelocity.z;
+	//地面に接していない場合の落下処理
+	if (groundFlag == false)
+	{
+		//60フレームでタイマーを1進める
+		fallTimer += 3.0f / 60.0f;
+		//落下ベクトル計算
+		float v = GAcceleration * fallTimer;
+		fallVelocity.y = -(GAcceleration * fallTimer);
+		//座標に加算
+		position.x += fallVelocity.x;
+		position.y += fallVelocity.y;
+		position.z += fallVelocity.z;
+	}
 
 	XMMATRIX matScale, matRot, matTrans;
 
@@ -249,6 +296,8 @@ void Metaball::Update(Collision* collision)
 		constMap->cameraPos = cameraPos;
 		constBuffTransform->Unmap(0, nullptr);
 	}
+
+	groundFlag = false;
 }
 
 void Metaball::CreateBuffers()
@@ -672,10 +721,32 @@ void Metaball::SetImageData(XMFLOAT4 color)
 
 void Metaball::UpdateCollision(Collision* collision)
 {
-	while (collision->Update(position,scale))
+	if (collision->Update(position, scale) == 1)
 	{
-		position.y += 0.2f;
+		//接地フラグを立てる
+		groundFlag = true;
+		//自由落下Tの値をリセット
+		fallTimer = 0;
+		//落下ベクトルをリセット
+		fallVelocity.y = 0;
 	}
+
+	//めり込まなくなりまで加算
+	while (collision->Update(position, scale) == 1)
+	{
+		position.y += 0.02f;
+		if (collision->Update(position, scale) == 0)
+		{
+			break;
+		}
+	}
+
+	/*position.y -= 0.2f;
+	if (collision->Update(position, scale) == 0)
+	{
+		groundFlag = false;
+	}
+	position.y += 0.1f;*/
 }
 
 void Metaball::UpdateVertex()
@@ -755,19 +826,6 @@ void Metaball::UpdateGravity(XMFLOAT3 gravityPoint)
 			vertices[i].pos.z = vertices2[i].pos.z - ((vertexWeight * graPointWeight) / (length * length)) * G * vecZ;
 		}
 	}
-}
-
-void Metaball::Move()
-{
-	//60フレームでタイマーを1進める
-	fallTimer += 1.0f / 60.0f;
-
-	float v = GAcceleration * fallTimer;
-	fallVelocity.y = -(GAcceleration * fallTimer);
-
-	position.x += fallVelocity.x;
-	position.y += fallVelocity.y;
-	position.z += fallVelocity.z;
 }
 
 void Metaball::Draw(ID3D12GraphicsCommandList* cmdList)

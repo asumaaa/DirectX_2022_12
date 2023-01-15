@@ -17,6 +17,8 @@ private:
 	{
 		DirectX::XMFLOAT3 c;	//中心
 		DirectX::XMFLOAT3 r;	//半径
+		DirectX::XMFLOAT3 min;
+		DirectX::XMFLOAT3 max;
 	};
 public:
 	//衝突判定を行うオブジェクトをセット(直方体と球)

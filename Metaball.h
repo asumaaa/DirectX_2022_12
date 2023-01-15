@@ -9,6 +9,7 @@
 #include "d3dx12.h"
 #include "Camera.h"
 #include "Collision.h"
+#include "input.h"
 
 const int fine = 16;	//球体の細かさ	変数宣言用
 const int fine2 = fine * fine * 2;	//描画に使う頂点の数
@@ -44,18 +45,20 @@ public:	//静的メンバ関数
 //セッター
 	static void SetDevice(ID3D12Device* device) { Metaball::device = device; }
 	static void SetCamera(Camera* camera) { Metaball::camera = camera; }
+	static void SetInput(Input* input) { Metaball::input = input; }
 	//グラフィックスパイプラインの生成
 	static void CreateGraphicsPipeline();
 
 private://静的メンバ変数
 	static ID3D12Device* device;
 	static Camera* camera;
+	static Input* input;
 
 public:
 	//初期化
 	void Initialize();
 	//更新
-	void Update(Collision* collision);
+	void Update();
 	//バッファ生成
 	void CreateBuffers();
 	//頂点生成
@@ -79,7 +82,7 @@ public:
 
 	//セッター
 	void SetPosition(XMFLOAT3 pos) { position = pos; }
-	void SetScale(XMFLOAT3 sca) { scale = sca; }
+	void SetScale(XMFLOAT3 sca) { scale.x = sca.x/2; scale.y = sca.y / 2;scale.z = sca.z / 2;}
 	void SetRotation(XMFLOAT3 rot) { rotation = rot; }
 
 	//ゲッター
@@ -160,4 +163,6 @@ private:
 	//移動用変数
 	XMFLOAT3 fallVelocity = { 0,0,0 };
 	float fallTimer = 0.0f;
+
+	bool groundFlag = false;
 };

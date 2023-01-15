@@ -35,6 +35,17 @@ void Camera::Initialize(Input* input)
 
 void Camera::Update()
 {
+	if(input_->PushKey(DIK_LEFT))
+	{
+		eye_.x -= 1;
+		target_.x -= 1;
+	}
+	if (input_->PushKey(DIK_RIGHT))
+	{
+		eye_.x += 1;
+		target_.x += 1;
+	}
+
 	matView_ = XMMatrixLookAtLH(XMLoadFloat3(&eye_), XMLoadFloat3(&target_), XMLoadFloat3(&up_));
 }
 void Camera::SetTarget(XMFLOAT3 pos)
