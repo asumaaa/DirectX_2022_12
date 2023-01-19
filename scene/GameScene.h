@@ -46,6 +46,8 @@ private:
 
 	//キューブ
 	std::unique_ptr<CubeModel> cubeModel1;
+	std::unique_ptr<CubeModel> cubeModel2;
+	std::unique_ptr<CubeObject3D> cubeObject1;
 
 	//プレイヤー
 	std::unique_ptr<Player> player;

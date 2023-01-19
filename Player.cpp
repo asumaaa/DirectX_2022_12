@@ -2,7 +2,7 @@
 
 #define PI 3.14159265359
 #define G 6.674	//万有引力定数
-#define GAcceleration 9.80665 * 1/10	//重力加速度
+#define GAcceleration 9.80665 * 1/20	//重力加速度
 
 Player* Player::GetInstance()
 {
@@ -55,7 +55,7 @@ void Player::Move()
     if (groundFlag == false)
     {
         //60フレームでタイマーを1進める
-        fallTimer += 3.0f / 60.0f;
+        fallTimer += 2.5f / 60.0f;
         //落下ベクトル計算
         float v = GAcceleration * fallTimer;
         fallVelocity.y = -(GAcceleration * fallTimer);
