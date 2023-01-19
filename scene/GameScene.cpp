@@ -21,7 +21,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	newCamera->Initialize(input_);
 	camera_.reset(newCamera);
 	camera_->SetTarget({ 0,0,0 });
-	camera_->SetEye({ 0, 5, -15 });
+	camera_->SetEye({ 0, 10, -20 });
 
 	//メタボール
 	//デバイスをセット
@@ -106,10 +106,10 @@ void GameScene::Update()
 
 void GameScene::Draw()
 {
-	for (std::unique_ptr<Metaball>& metaball : metaballs)
+	/*for (std::unique_ptr<Metaball>& metaball : metaballs)
 	{
 		metaball->Draw(dxCommon_->GetCommandList());
-	}
+	}*/
 	waterSurface->Draw(dxCommon_->GetCommandList());
-	cubeObject1->Draw(dxCommon_->GetCommandList());
+	/*cubeObject1->Draw(dxCommon_->GetCommandList());*/
 }

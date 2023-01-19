@@ -9,7 +9,7 @@
 #include "d3dx12.h"
 #include "Camera.h"
 
-const int fineness = 150;	//水面の細かさ
+const int fineness = 20;	//水面の細かさ
 class WaterSurface
 {
 private:	//エイリアス
