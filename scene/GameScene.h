@@ -17,6 +17,8 @@
 #include "CubeModel.h"
 #include "CubeObject3D.h"
 #include "WaterSurface.h"
+#include "Player.h"
+#include "Collision.h"
 
 class GameScene
 {
@@ -40,12 +42,14 @@ private:
 	//カメラ
 	std::unique_ptr<Camera> camera_;
 
-	size_t metaballVal = 3;
-	std::list<std::unique_ptr<Metaball>> metaballs;
-
 	std::unique_ptr<WaterSurface> waterSurface;
 
 	//キューブ
 	std::unique_ptr<CubeModel> cubeModel1;
-	std::unique_ptr<CubeObject3D> cubeObject1;
+
+	//プレイヤー
+	std::unique_ptr<Player> player;
+
+	//当たり判定
+	std::list<std::unique_ptr<Collision>> collisions;
 };

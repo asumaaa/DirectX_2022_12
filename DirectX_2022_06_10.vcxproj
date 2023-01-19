@@ -157,6 +157,7 @@
     <ClCompile Include="base\Texture.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Collision.cpp" />
     <ClCompile Include="CubeModel.cpp" />
     <ClCompile Include="CubeObject3D.cpp" />
     <ClCompile Include="fbx\FbxLoader.cpp" />
@@ -176,6 +177,7 @@
     <ClCompile Include="math\Matrix4.cpp" />
     <ClCompile Include="Metaball.cpp" />
     <ClCompile Include="Pera.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
     <ClCompile Include="WaterSurface.cpp" />
   </ItemGroup>
@@ -190,6 +192,7 @@
     <ClInclude Include="base\Texture.h" />
     <ClInclude Include="base\WinApp.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Collision.h" />
     <ClInclude Include="CubeModel.h" />
     <ClInclude Include="CubeObject3D.h" />
     <ClInclude Include="fbx\FbxLoader.h" />
@@ -210,6 +213,7 @@
     <ClInclude Include="math\Matrix4.h" />
     <ClInclude Include="Metaball.h" />
     <ClInclude Include="Pera.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="scene\GameScene.h" />
     <ClInclude Include="WaterSurface.h" />
   </ItemGroup>
