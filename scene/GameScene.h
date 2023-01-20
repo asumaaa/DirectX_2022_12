@@ -40,12 +40,11 @@ private:
 	//カメラ
 	std::unique_ptr<Camera> camera_;
 
-	size_t metaballVal = 3;
-	std::list<std::unique_ptr<Metaball>> metaballs;
+	//モデル
+	std::unique_ptr<Model> model_;
+	std::unique_ptr<Model> model2_;
 
-	std::unique_ptr<WaterSurface> waterSurface;
-
-	//キューブ
-	std::unique_ptr<CubeModel> cubeModel1;
-	std::unique_ptr<CubeObject3D> cubeObject1;
+	//オブジェクト
+	std::unique_ptr<Object3D> object3D1_;
+	std::unique_ptr<Object3D> object3D2_;
 };

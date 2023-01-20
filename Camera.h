@@ -33,7 +33,7 @@ private:
 	XMMATRIX matProjection_;
 	//ÉrÉÖÅ[ïœä∑çsóÒ
 	XMMATRIX matView_;
-	XMFLOAT3 eye_ = { 0, 20, -100 };
+	XMFLOAT3 eye_ = { 0, 0, 0 };
 	XMFLOAT3 target_ = { 0, 0, 0 };
 	XMFLOAT3 up_ = { 0, 1, 0 };
 };

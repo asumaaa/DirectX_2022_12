@@ -16,91 +16,45 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	this->dxCommon_ = dxCommon;
 	this->input_ = input;
 
+	//モデル初期化
+	Model* newModel = new Model();
+	newModel->Initialize(dxCommon_->GetDevice(), "fighter", "Resources/fighter.png");
+	model_.reset(newModel);
+	//オブジェクト初期化
+	Object3D* newObject = new Object3D();
+	newObject->Initialize(dxCommon_->GetDevice(), model_.get());
+	newObject->setScale({ 10,10,10 });
+	newObject->setPosition({50,0,0});
+	object3D1_.reset(newObject);
+
+	//モデル初期化
+	Model* newModel2 = new Model();
+	newModel2->Initialize(dxCommon_->GetDevice(), "boss", "Resources/boss.png");
+	model2_.reset(newModel2);
+	//オブジェクト初期化
+	Object3D* newObject2 = new Object3D();
+	newObject2->Initialize(dxCommon_->GetDevice(), model2_.get());
+	newObject2->setScale({ 10,10,10 });
+	newObject2->setPosition({ -50,0,0 });
+	object3D2_.reset(newObject2);
+
 	//カメラ初期化
 	Camera* newCamera = new Camera();
 	newCamera->Initialize(input_);
 	camera_.reset(newCamera);
 	camera_->SetTarget({ 0,0,0 });
-	camera_->SetEye({ 0, 10, -20 });
-
-	//メタボール
-	//デバイスをセット
-	Metaball::SetDevice(dxCommon_->GetDevice());
-	Metaball::SetCamera(camera_.get());
-	Metaball::CreateGraphicsPipeline();
-
-	for (int i = 0; i < metaballVal; i++)
-	{
-		std::unique_ptr<Metaball>newMetaball = std::make_unique<Metaball>();
-		newMetaball->Initialize();
-		if (i == 0)
-		{
-			newMetaball->SetImageData({ 0.1, 0.3, 1, 1 });
-			newMetaball->SetPosition({ 0,5,0 });
-			newMetaball->SetScale({ 1.5,1.5,1.5 });
-		}
-		if (i == 1)
-		{
-			newMetaball->SetImageData({ 0.1, 0.3, 1, 1 });
-			newMetaball->SetPosition({ -5,5,0 });
-			newMetaball->SetScale({ 1.5,1.5,1.5 });
-		}
-		if (i == 2)
-		{
-			newMetaball->SetImageData({ 0.1, 0.3, 1, 1 });
-			newMetaball->SetPosition({ 5,5,0 });
-			newMetaball->SetScale({ 1.5,1.5,1.5 });
-		}
-		metaballs.push_back(std::move(newMetaball));
-	}
-
-	//水面
-	WaterSurface::SetDevice(dxCommon_->GetDevice());
-	WaterSurface::SetCamera(camera_.get());
-	WaterSurface::CreateGraphicsPipeline();
-	WaterSurface* newWaterSurface = new WaterSurface();
-	newWaterSurface->Initialize();
-	newWaterSurface->SetImageData({ 0.1, 0.3, 1, 1 });
-	newWaterSurface->SetPosition({ 0,0,0 });
-	newWaterSurface->SetScale({ 20.0f,10.0f,20.0f });
-	waterSurface.reset(newWaterSurface);
-
-	//キューブの設定
-	//デバイスをセット
-	CubeObject3D::SetDevice(dxCommon_->GetDevice());
-	CubeObject3D::SetCamera(camera_.get());
-	CubeObject3D::SetInput(input_);
-	CubeObject3D::CreateGraphicsPipeline();
-
-	CubeModel* newCubeModel = new CubeModel();
-	newCubeModel->CreateBuffers(dxCommon_->GetDevice());
-	cubeModel1.reset(newCubeModel);
-	cubeModel1->SetImageData({ 1.0f, 1.0f, 1.0f,1.0f });
-
-	CubeObject3D* newCubeObject = new CubeObject3D();
-	newCubeObject->Initialize();
-	cubeObject1.reset(newCubeObject);
-	cubeObject1->SetModel(cubeModel1.get());
-
-	cubeObject1->SetScale({ 1.0f,1.0f,1.0f });
-	cubeObject1->SetPosition({ 10.0f,0.0f,0.0f });
+	camera_->SetEye({ -10, 15, -150 });
 }
 
 void GameScene::Update()
 {
-	for (std::unique_ptr<Metaball>& metaball : metaballs)
-	{
-		metaball->UpdateGravity(cubeObject1->GetPosition());
-		metaball->UpdateVertex();
-		metaball->Update();
-	}
-	waterSurface->UpdateWave({ 0,0,0 });
-	waterSurface->UpdateVertex();
-	waterSurface->Update();
-	cubeObject1->Update();
+	XMMATRIX m1 = camera_->GetMatView();
+	XMMATRIX m2 = camera_->GetMatViewProjection();
+
+	object3D1_->Update(m1, m2);
+	object3D2_->Update(m1, m2);
 
 	camera_->Update();
-
 
 	//コントローラー更新
 	dxInput->InputProcess();
@@ -108,10 +62,6 @@ void GameScene::Update()
 
 void GameScene::Draw()
 {
-	/*for (std::unique_ptr<Metaball>& metaball : metaballs)
-	{
-		metaball->Draw(dxCommon_->GetCommandList());
-	}*/
-	waterSurface->Draw(dxCommon_->GetCommandList());
-	cubeObject1->Draw(dxCommon_->GetCommandList());
+	object3D1_->Draw(dxCommon_->GetCommandList(), model_->vbView, model_->ibView);
+	object3D2_->Draw(dxCommon_->GetCommandList(),model2_->vbView, model2_->ibView);
 }
