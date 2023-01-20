@@ -9,7 +9,7 @@
 #include "d3dx12.h"
 #include "Camera.h"
 
-const int fineness = 20;	//水面の細かさ
+const int fineness = 50;	//水面の細かさ
 class WaterSurface
 {
 private:	//エイリアス
@@ -71,6 +71,11 @@ public:
 	void SetPosition(XMFLOAT3 pos) { position = pos; }
 	void SetScale(XMFLOAT3 sca) { scale = sca; }
 	void SetRotation(XMFLOAT3 rot) { rotation = rot; }
+	//ゲッター
+	XMFLOAT3 GetScale() { return scale; }
+	XMFLOAT3 GetPosition() { return position; }
+	XMFLOAT3 GetRotation() { return rotation; }
+
 public:
 	//頂点データ配列
 	struct VertexPosNormalUv

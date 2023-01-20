@@ -62,7 +62,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	newWaterSurface->Initialize();
 	newWaterSurface->SetImageData({ 0.1, 0.3, 1, 1 });
 	newWaterSurface->SetPosition({ 0,0,0 });
-	newWaterSurface->SetScale({ 15,15,15 });
+	newWaterSurface->SetScale({ 20.0f,10.0f,20.0f });
 	waterSurface.reset(newWaterSurface);
 
 	//ƒLƒ…[ƒu‚ÌÝ’è
@@ -82,7 +82,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	cubeObject1.reset(newCubeObject);
 	cubeObject1->SetModel(cubeModel1.get());
 
-	cubeObject1->SetScale({ 0.5f,0.5f,0.5f });
+	cubeObject1->SetScale({ 1.0f,1.0f,1.0f });
 	cubeObject1->SetPosition({ 10.0f,0.0f,0.0f });
 }
 
@@ -94,6 +94,8 @@ void GameScene::Update()
 		metaball->UpdateVertex();
 		metaball->Update();
 	}
+	waterSurface->UpdateWave({ 0,0,0 });
+	waterSurface->UpdateVertex();
 	waterSurface->Update();
 	cubeObject1->Update();
 
@@ -111,5 +113,5 @@ void GameScene::Draw()
 		metaball->Draw(dxCommon_->GetCommandList());
 	}*/
 	waterSurface->Draw(dxCommon_->GetCommandList());
-	/*cubeObject1->Draw(dxCommon_->GetCommandList());*/
+	cubeObject1->Draw(dxCommon_->GetCommandList());
 }

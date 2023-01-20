@@ -550,6 +550,20 @@ void WaterSurface::UpdateWave(XMFLOAT3 waveSource)
 	XMFLOAT3 waveSoruce1(waveSource.x - position.x,
 		waveSource.y - position.y,
 		waveSource.z - position.z);
+
+	const int f2 = fineness * fineness * 4;
+	XMFLOAT3 waveSource2;
+	int point;
+	if (waveTimer == 0)
+	{
+		for (int i = 0; i < f2; i++)
+		{
+		}
+	vertices[100].pos.y += 0.06;
+	}
+
+	//タイマー更新
+	waveTimer += 1.0f;
 }
 
 void WaterSurface::Draw(ID3D12GraphicsCommandList* cmdList)
